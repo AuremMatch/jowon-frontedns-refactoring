@@ -16,22 +16,26 @@ export default function Navigation() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <header className="fixed top-0 w-full h-full bg-opacity-0">
-      <div className="flex justify-between p-8">
+    <header className="fixed top-0 w-full h-full bg-opacity-0 ">
+      <div className="flex justify-between p-8 hover:bg-white group transition-colors duration-300">
         <Link to="/">
-          <h1 className="text-3xl font-customFont m-3 transition duration-300 ease-in-out transform hover:text-pink-800 hover:scale-110">
-            1jowon
+          <h1 className="text-3xl text-white font-customFont m-3 transition duration-300 ease-in-out transform group-hover:text-black hover:scale-110">
+            <span className="stroke-black stroke-1 font-bold">1jowon</span>
           </h1>
         </Link>
         <ul className="flex items-center">
           {menuItems.map((item, index) => (
-            <MenuItem key={index} name={item.name} />
+            <MenuItem
+              key={index}
+              name={item.name}
+              className="group-hover:text-black"
+            />
           ))}
           <li
             onClick={toggleMenu}
-            className="p-3 font-customFont text-2xl cursor-pointer flex items-center relative"
+            className="p-3 font-customFont text-2xl cursor-pointer flex items-center relative text-white group-hover:text-black"
           >
-            My Page
+            <span className="stroke-black stroke-1 font-bold"> My Page</span>
             {isOpen ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
             {isOpen && <PageMenu />}
           </li>
