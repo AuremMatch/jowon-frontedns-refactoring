@@ -17,7 +17,7 @@ export default function Navigation() {
 
   return (
     <header className="fixed top-0 w-full h-full bg-opacity-0 ">
-      <div className="flex justify-between p-8 hover:bg-white group transition-colors duration-300">
+      <div className="flex justify-between p-8 hover:bg-white group transition-colors duration-500">
         <Link to="/">
           <h1 className="text-3xl text-white font-customFont m-3 transition duration-300 ease-in-out transform group-hover:text-black hover:scale-110">
             <span className="stroke-black stroke-1 font-bold">1jowon</span>
