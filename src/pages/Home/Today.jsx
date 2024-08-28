@@ -2,9 +2,9 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { IoChevronForwardOutline, IoChevronBackOutline } from "react-icons/io5";
 import Slider from "react-slick";
-import PictureCard from "../components/PictureCard";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import ContestCard from "../Contests/ContestCard";
 
 const NextArrow = (props) => (
   <div {...props} className="slick-arrow slick-next">
@@ -25,15 +25,17 @@ export default function Today() {
     isLoading,
     error,
     data: videos,
-  } = useQuery(["videos"], async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/contests/");
-      return response.data;
-    } catch (error) {
-      throw new Error("Network response was not ok");
-    }
+  } = useQuery({
+    queryKey: ["videos"],
+    queryFn: async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/contests/");
+        return response.data;
+      } catch (error) {
+        throw new Error("Network response was not ok");
+      }
+    },
   });
-
   const settings = {
     dots: false,
     infinite: true,
@@ -66,7 +68,7 @@ export default function Today() {
           <Slider {...settings} className="p-12">
             {videos.results.map((video) => (
               <div key={video.id} className="px-2">
-                <PictureCard video={video}></PictureCard>
+                <ContestCard video={video}></ContestCard>
               </div>
             ))}
           </Slider>
