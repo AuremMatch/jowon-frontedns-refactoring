@@ -4,7 +4,7 @@ import Navigation from "./pages/Header/Navigation";
 
 function App() {
   return (
-    <div className="App">
+    <div className="">
       <Navigation />
       <main>
         <Outlet /> {/* 자식 라우트를 여기서 렌더링 */}
