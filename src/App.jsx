@@ -2,6 +2,7 @@ import "./App.css";
 import { Outlet } from "react-router-dom";
 import Navigation from "./pages/Header/Navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Footer from "./components/Footer/Footer";
 
 const queryClient = new QueryClient();
 
@@ -12,6 +13,7 @@ function App() {
       <main>
         <Outlet /> {/* 자식 라우트를 여기서 렌더링 */}
       </main>
+      <Footer />
     </QueryClientProvider>
   );
 }

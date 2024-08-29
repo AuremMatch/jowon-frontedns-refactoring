@@ -33,27 +33,23 @@ export default function Navigation() {
 
   return (
     <header
-      className={`fixed top-0 w-full   ${
+      className={`fixed top-0 w-full transition-colors duration-300 ease-in-out z-20 ${
         isScroll ? "bg-white text-black" : "bg-transparent text-white"
       }`}
     >
-      <div className="flex justify-between p-8 ">
+      <div className="flex justify-between p-8">
         <Link to="/">
-          <h1 className="text-3xl text-white font-customFont m-3 transition duration-300 ease-in-out transform group-hover:text-black hover:scale-110">
+          <h1 className="text-4xl font-customFont m-3 transform hover:scale-110">
             <span className="stroke-black stroke-1 font-bold">1jowon</span>
           </h1>
         </Link>
         <ul className="flex items-center">
           {menuItems.map((item, index) => (
-            <MenuItem
-              key={index}
-              name={item.name}
-              className="group-hover:text-black"
-            />
+            <MenuItem scroll={isScroll} key={index} name={item.name} />
           ))}
           <li
             onClick={toggleMenu}
-            className="p-3 font-customFont text-2xl cursor-pointer flex items-center relative text-white group-hover:text-black"
+            className="p-3 font-customFont text-3xl cursor-pointer flex items-center relative group transform hover:text-black hover:scale-110"
           >
             <span className="stroke-black stroke-1 font-bold"> My Page</span>
             {isOpen ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
