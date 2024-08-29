@@ -1,5 +1,12 @@
 import React from "react";
+import ImageSection from "./ImageSection";
+import DataSection from "./DataSection";
 
 export default function Contests() {
-  return <div></div>;
+  return (
+    <>
+      <ImageSection />
+      <DataSection />
+    </>
+  );
 }

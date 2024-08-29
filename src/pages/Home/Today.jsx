@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ContestCard from "../Contests/ContestCard";
+import { useFetchToday } from "../../hooks/useFetchToday";
 
 const NextArrow = (props) => (
   <div {...props} className="slick-arrow slick-next">
@@ -21,21 +22,8 @@ const PrevArrow = (props) => (
 export default function Today() {
   const { keyword } = useParams();
 
-  const {
-    isLoading,
-    error,
-    data: videos,
-  } = useQuery({
-    queryKey: ["videos"],
-    queryFn: async () => {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/contests/");
-        return response.data;
-      } catch (error) {
-        throw new Error("Network response was not ok");
-      }
-    },
-  });
+  const { isLoading, error, data: videos } = useFetchToday(); // 커스텀 훅 사용
+
   const settings = {
     dots: false,
     infinite: true,
