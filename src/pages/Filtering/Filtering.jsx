@@ -6,7 +6,7 @@ function Filtering({ activeFilter, onFilterClick }) {
       <button
         className={`${
           activeFilter === "department" ? "bg-gray-800" : "bg-gray-500"
-        } text-white font-bold py-4 px-6 rounded mr-2`}
+        } text-white font-bold py-4 px-6 rounded mr-2 transition duration-300 hover:scale-110 p-3`}
         onClick={() => onFilterClick("department")}
       >
         학과별
@@ -14,7 +14,7 @@ function Filtering({ activeFilter, onFilterClick }) {
       <button
         className={`${
           activeFilter === "latest" ? "bg-gray-800" : "bg-gray-500"
-        } text-white font-bold py-2 px-4 rounded mr-2`}
+        } text-white font-bold py-2 px-4 rounded mr-2 transition duration-300 hover:scale-110 p-3`}
         onClick={() => onFilterClick("latest")}
       >
         최신별
@@ -22,7 +22,7 @@ function Filtering({ activeFilter, onFilterClick }) {
       <button
         className={`${
           activeFilter === "period" ? "bg-gray-800" : "bg-gray-500"
-        } text-white font-bold py-2 px-4 rounded mr-2`}
+        } text-white font-bold py-2 px-4 rounded mr-2 transition duration-300 hover:scale-110 p-3`}
         onClick={() => onFilterClick("period")}
       >
         기간별

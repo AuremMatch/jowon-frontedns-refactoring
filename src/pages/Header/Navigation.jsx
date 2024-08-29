@@ -39,7 +39,7 @@ export default function Navigation() {
     >
       <div className="flex justify-between p-8">
         <Link to="/">
-          <h1 className="text-4xl font-customFont m-3 transform hover:scale-110">
+          <h1 className="text-4xl font-customFont m-3 transform hover:scale-110 hover:text-black">
             <span className="stroke-black stroke-1 font-bold">1jowon</span>
           </h1>
         </Link>
