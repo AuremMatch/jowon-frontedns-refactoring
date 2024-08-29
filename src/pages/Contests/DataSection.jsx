@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFetchToday } from "../../hooks/useFetchToday";
 import ContestCard from "./ContestCard";
 import { useFilterReducer } from "../../reducer/useFilterReducer";
+import Filtering from "../Filtering/Filtering";
 
 export default function DataSection() {
   const [page, setPage] = useState(1); // 페이지네이션
@@ -18,32 +19,10 @@ export default function DataSection() {
 
   return (
     <div>
-      <div className="flex justify-end p-8">
-        <button
-          className={`${
-            state.activeFilter === "department" ? "bg-gray-800" : "bg-gray-500"
-          } text-white font-bold py-4 px-6 rounded mr-2`}
-          onClick={() => handleFilterClick("department")}
-        >
-          학과별
-        </button>
-        <button
-          className={`${
-            state.activeFilter === "latest" ? "bg-gray-800" : "bg-gray-500"
-          } text-white font-bold py-2 px-4 rounded mr-2`}
-          onClick={() => handleFilterClick("latest")}
-        >
-          최신별
-        </button>
-        <button
-          className={`${
-            state.activeFilter === "period" ? "bg-gray-800" : "bg-gray-500"
-          } text-white font-bold py-2 px-4 rounded mr-2`}
-          onClick={() => handleFilterClick("period")}
-        >
-          기간별
-        </button>
-      </div>
+      <Filtering
+        activeFilter={state.activeFilter}
+        onFilterClick={handleFilterClick}
+      />
       {isLoading && <p>Loading...</p>}
       {error && <p>Something is wrong...</p>}
       {videos && (
