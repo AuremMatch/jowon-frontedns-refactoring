@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFetchToday } from "../../hooks/useFetchToday";
 import ContestCard from "./ContestCard";
 import { Link } from "react-router-dom";
 
 export default function DataSection() {
-  const { isLoading, error, data: videos } = useFetchToday(); // 커스텀 훅 사용
+  const [page, setPage] = useState(1); //페이지네이션
+  const { isLoading, error, data: videos } = useFetchToday(page); // 커스텀 훅 사용
+
   return (
     <div>
       {" "}
@@ -17,15 +19,28 @@ export default function DataSection() {
               <ContestCard key={video.id} video={video}></ContestCard>
             </div>
           ))}
-
-          <Link
-            to="/pictures"
-            className="flex items-center justify-center blinking-text"
-          >
-            <h1 className="text-3xl mb-2 font-diphylleia">more</h1>
-          </Link>
         </div>
       )}
+      <div className="flex justify-center mt-4 p-4 mb-12">
+        <button
+          className={`bg-gray-800 text-white font-bold py-2 px-4 rounded mr-2 transition duration-300 hover:scale-110 ${
+            !videos || !videos.previous ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={() => setPage((prevPage) => Math.max(prevPage - 1, 1))}
+          disabled={!videos || !videos.previous}
+        >
+          Previous
+        </button>
+        <button
+          className={`bg-gray-800 text-white font-bold py-2 px-4 rounded ml-2 transition duration-300 hover:scale-110 ${
+            !videos || !videos.next ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={() => setPage((prevPage) => prevPage + 1)}
+          disabled={!videos || !videos.next}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
