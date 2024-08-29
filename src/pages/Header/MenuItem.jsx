@@ -1,11 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function MenuItem({ name, scroll, color, className = "" }) {
+  const location = useLocation();
   const path = `/${name.toLowerCase()}`;
 
+  // Determine if the current path is "/likes"
+  const isLikesPath = location.pathname === "/likes";
+
   // Determine the final text color
-  const textColor = color ? color : scroll ? "text-black" : "text-white";
+  const textColor = isLikesPath
+    ? "text-black"
+    : color
+    ? color
+    : scroll
+    ? "text-black"
+    : "text-white";
 
   return (
     <Link

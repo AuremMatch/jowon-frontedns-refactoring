@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IoChevronUpOutline, IoChevronDownOutline } from "react-icons/io5";
 import PageMenu from "./PageMenu";
 import MenuItem from "./MenuItem";
@@ -31,10 +31,17 @@ export default function Navigation() {
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
+  const location = useLocation();
+  const getCurrentPath = () => location.pathname;
+
   return (
     <header
       className={`fixed top-0 w-full transition-colors duration-300 ease-in-out z-20 ${
-        isScroll ? "bg-white text-black" : "bg-transparent text-white"
+        getCurrentPath() === "/likes"
+          ? "bg-white text-black"
+          : isScroll
+          ? "bg-white text-black"
+          : "bg-transparent text-white"
       }`}
     >
       <div className="flex justify-between p-8">
