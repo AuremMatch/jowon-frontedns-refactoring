@@ -33,12 +33,16 @@ export default function Navigation() {
 
   const location = useLocation();
   const getCurrentPath = () => location.pathname;
+  const isLikesOrContestsPath =
+    getCurrentPath() === "/likes" || getCurrentPath() === "/contests";
 
   return (
     <header
       className={`fixed top-0 w-full transition-colors duration-300 ease-in-out z-20 ${
-        getCurrentPath() === "/likes"
-          ? "bg-white text-black"
+        isLikesOrContestsPath
+          ? isScroll
+            ? "bg-white text-black"
+            : "bg-transparent text-black"
           : isScroll
           ? "bg-white text-black"
           : "bg-transparent text-white"

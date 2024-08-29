@@ -6,7 +6,8 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
   const path = `/${name.toLowerCase()}`;
 
   // Determine if the current path is "/likes"
-  const isLikesPath = location.pathname === "/likes";
+  const isLikesPath =
+    location.pathname === "/likes" || location.pathname === "/contests";
 
   // Determine the final text color
   const textColor = isLikesPath
