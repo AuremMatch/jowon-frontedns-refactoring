@@ -41,31 +41,12 @@ export function useFilterReducer() {
   const [state, dispatch] = useReducer(filterReducer, initialState);
 
   const handleSortByDepartment = async () => {
-    dispatch({ type: "TOGGLE_DEPARTMENT" });
+    dispatch({ type: "TOGGLE_LATEST" });
     try {
-      const userResponse = await axiosInstance.get(
-        "http://127.0.0.1:8000/users/me/",
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("access_token")}`,
-          },
-        }
-      );
-      const userDepartment = userResponse.data.학과;
-      const filteredResponse = await axiosInstance.get(
-        `http://127.0.0.1:8000/contests/filtered/?연관학과=${userDepartment}`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("access_token")}`,
-          },
-        }
-      );
-      dispatch({
-        type: "SET_FILTERED_VIDEOS",
-        payload: filteredResponse.data.results,
-      });
+      const data = await fetchFilteredContests("latest");
+      dispatch({ type: "SET_LATEST_VIDEOS", payload: data });
     } catch (error) {
-      console.error("Error sorting by department:", error);
+      console.error("Error sorting by latest:", error);
     }
   };
 
@@ -90,19 +71,25 @@ export function useFilterReducer() {
   };
 
   const handleFilterClick = (filterType) => {
-    dispatch({ type: "SET_ACTIVE_FILTER", filterType });
-    switch (filterType) {
-      case "department":
-        handleSortByDepartment();
-        break;
-      case "latest":
-        handleSortByLatest();
-        break;
-      case "period":
-        handleSortByPeriod();
-        break;
-      default:
-        break;
+    if (state.activeFilter === filterType) {
+      // If the current filter is clicked again, reset the filter
+      dispatch({ type: "CLEAR_ACTIVE_FILTER" });
+    } else {
+      // Otherwise, set the new active filter and execute corresponding sort
+      dispatch({ type: "SET_ACTIVE_FILTER", filterType });
+      switch (filterType) {
+        case "department":
+          handleSortByDepartment();
+          break;
+        case "latest":
+          handleSortByLatest();
+          break;
+        case "period":
+          handleSortByPeriod();
+          break;
+        default:
+          break;
+      }
     }
   };
 

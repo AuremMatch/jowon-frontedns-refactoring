@@ -6,18 +6,16 @@ const menuItems = [
   { name: "Profile" },
   { name: "PointShop" },
   { name: "Ranking" },
-  { name: "Notification" },
+  { name: "Noti" },
+  { name: "Login" },
 ];
 
 export default function PageMenu() {
   return (
-    <ul className="absolute top-full left-0 right-2">
+    <ul className="absolute top-full left-0 right-2 bg-white flex align-center text-center flex-col">
       {menuItems.map((item, index) => (
-        <MenuItem key={index} name={item.name} />
+        <MenuItem key={index} name={item.name} scroll={true} />
       ))}
-      <li className="p-2">
-        <Login />
-      </li>
     </ul>
   );
 }
