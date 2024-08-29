@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { FaHeart, FaRegAngry, FaRegHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { useToggleLike } from "../../hooks/useFetchLike";
 
 export default function ContestCard({ video }) {
   const { liked, toggleLike } = useToggleLike(video.id); // 커스텀 훅 사용
+
   return (
     <Link
-      to={`/pictures/${video?.id}`}
+      to={`/contests/${video?.id}`}
       className="rounded-lg shadow-md cursor-pointer m-8 flex justify-center transform hover:scale-105 transition ease-in-out flex-col"
       onClick={(e) => e.stopPropagation()}
     >
