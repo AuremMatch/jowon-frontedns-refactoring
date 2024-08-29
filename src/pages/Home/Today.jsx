@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ContestCard from "../Contests/ContestCard";
-import { useFetchToday } from "../../hooks/useFetchToday";
+import { useFetch, useFetchToday } from "../../hooks/useFetchToday";
 
 const NextArrow = (props) => (
   <div {...props} className="slick-arrow slick-next">
@@ -22,7 +22,7 @@ const PrevArrow = (props) => (
 export default function Today() {
   const { keyword } = useParams();
 
-  const { isLoading, error, data: videos } = useFetchToday(); // 커스텀 훅 사용
+  const { isLoading, error, data: today } = useFetch(); // 커스텀 훅 사용
 
   const settings = {
     dots: false,
@@ -51,10 +51,10 @@ export default function Today() {
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Something is wrong...</p>}
-      {videos && (
+      {today && (
         <div>
           <Slider {...settings} className="p-12">
-            {videos.results.map((video) => (
+            {today.results.map((video) => (
               <div key={video.id} className="px-2">
                 <ContestCard video={video}></ContestCard>
               </div>
