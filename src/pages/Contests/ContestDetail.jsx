@@ -8,106 +8,85 @@ export default function ContestDetail() {
 
   const { video, loading, error } = useFetchDetail(id);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error loading video: {error.message}</div>;
+  if (loading) return <div className="text-center text-white">Loading...</div>;
+  if (error)
+    return (
+      <div className="text-center text-red-500">
+        Error loading video: {error.message}
+      </div>
+    );
+
   return (
-    <div className="">
-      <section className="flex flex-col md:flex-row p-4 items-center justify-center mt-40">
-        <div className="w-1/6  basis-5/12 mr-24">
-          <div className="text-2xl font-dongle_light mb-12  ">{video.제목}</div>
-          <img src={video.사진} className="w-full" />
+    <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+      <section className="w-5/6 h-5/6 flex flex-col md:flex-row p-6 md:p-12 items-center justify-between bg-gray-800 rounded-lg shadow-lg">
+        <div className="w-full  mb-8 ">
+          <h1 className="text-3xl  font-bold mb-6">{video.제목}</h1>
+          <img
+            src={video.사진}
+            className="w-full rounded-lg shadow-md"
+            alt={video.제목}
+          />
         </div>
 
-        <div className="w-full basis-5/12 flex flex-col p-4">
-          <div className="flex items-center py-2 ">
-            <span className="text-2xl  font-dongle w-1/3 mr-40">연관학과</span>
-            <span className="text-2xl  font-dongle w-2/3 ">
-              {video.연관학과}
-            </span>
+        <div className="w-full md:w-1/2 ml-24">
+          <div className="grid grid-cols-1 gap-6">
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                연관학과
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.연관학과}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                시상금
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.상금}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                학년
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.학년}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                분야
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.분야}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                위치
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.위치}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                응모분야
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.응모분야}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                참가대상
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.참가대상}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                접수기간
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.접수기간}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="text-xl md:text-2xl font-semibold w-1/3">
+                접수방법
+              </span>
+              <span className="text-lg md:text-xl w-2/3">{video.접수방법}</span>
+            </div>
           </div>
-          <div className="flex items-center py-2 ">
-            <span className="text-2xl font-dongle w-1/3 mr-40">시상금 </span>
-            <span className="text-2xl font-dongle w-2/3">{video.상금}</span>
-          </div>
-          <div className="flex items-center py-4">
-            <span className="text-2xl font-dongle_light w-1/3 mr-40">
-              학년{" "}
-            </span>
-            <span className="text-2xl font-dongle_light w-2/3">
-              {video.학년}
-            </span>
-          </div>
-          <div className="flex items-center py-4 ">
-            <span className="text-2xl font-dongle_light w-1/3 mr-40">
-              분야{" "}
-            </span>
-            <span className="text-2xl font-dongle_light w-2/3">
-              {video.분야}
-            </span>
-          </div>
-          <div className="flex items-center py-4">
-            <span className="text-2xl font-dongle_light w-1/3 mr-40">
-              위치{" "}
-            </span>
-            <span className="text-2xl font-dongle_light w-2/3">
-              {video.위치}
-            </span>
-          </div>
-          <div className="flex items-center py-4">
-            <span className="text-2xl font-dongle_light w-1/3 mr-40">
-              응모분야{" "}
-            </span>
-            <span className="text-2xl font-dongle_light w-2/3">
-              {video.응모분야}
-            </span>
-          </div>
-          <div className="flex items-center py-4">
-            <span className="text-2xl font-dongle_light w-1/3 mr-40">
-              참가대상{" "}
-            </span>
-            <span className="text-2xl font-dongle_light w-2/3">
-              {video.참가대상}
-            </span>
-          </div>
-          <div className="flex items-center py-4">
-            <span className="text-2xl font-dongle_light w-1/3 mr-40">
-              접수기간{" "}
-            </span>
-            <span className="text-2xl font-dongle_light w-2/3">
-              {video.접수기간}
-            </span>
-          </div>
-          <div className="flex items-center py-4">
-            <span className="text-2xl font-dongle_light w-1/3 mr-40">
-              접수방법{" "}
-            </span>
-            <span className="text-2xl font-dongle_light w-2/3">
-              {video.접수방법}
-            </span>
-          </div>
-
           <div className="flex justify-center mt-8">
-            {/* <Button
-              className="mt-32 mr-24 relative"
-              text="신청자조회"
-              onClick={handleButtonClick}
-            ></Button> */}
-
-            {/* {apply ? (
-              <Button className="" text="완료" onClick={toggleLike} />
-            ) : (
-              <Button className="" text="신청하기" onClick={toggleModal} />
-            )} */}
-            {/* <Button
-              onClick={() => (
-                (window.location.href =
-                  "https://www.notion.so/e035871677eb43b7bf71d168b8e9981e?pvs=4"),
-                "_blank"
-              )}
-              className="mt-32 mr-24 bg-cover text-white"
-              text="노션게시판"
-              style={{}}
-            /> */}
+            {/* 버튼이나 추가 요소들 여기에 위치 */}
           </div>
         </div>
       </section>

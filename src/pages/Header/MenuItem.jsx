@@ -23,7 +23,12 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
       to={path}
       className={`p-3 cursor-pointer font-customFont text-3xl transition duration-200 ease-in-out transform hover:text-black hover:scale-110 ${textColor} ${className} p-3`}
     >
-      <p className="stroke-black stroke-3 font-bold">{name}</p>
+      <p
+        style={{ color: "white", textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)" }}
+        className="stroke-black stroke-3 font-bold"
+      >
+        {name}
+      </p>
     </Link>
   );
 }

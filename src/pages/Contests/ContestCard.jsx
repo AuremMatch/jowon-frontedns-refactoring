@@ -10,7 +10,7 @@ export default function ContestCard({ video }) {
   return (
     <Link
       to={`/contests/${video?.id}`}
-      className="rounded-lg shadow-md cursor-pointer m-8 flex justify-center transform hover:scale-105 transition ease-in-out flex-col"
+      className="rounded-lg shadow-md cursor-pointer m-8 flex justify-center transform hover:scale-105 transition ease-in-out flex-col bg-white text-black"
       onClick={(e) => e.stopPropagation()}
     >
       <div

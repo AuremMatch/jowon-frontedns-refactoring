@@ -41,16 +41,22 @@ export default function Navigation() {
       className={`fixed top-0 w-full transition-colors duration-300 ease-in-out z-20 ${
         isLikesOrContestsPath
           ? isScroll
-            ? "bg-white text-black"
-            : "bg-transparent text-black"
+            ? "bg-white text-black" // 스크롤 중일 때 흰색 배경과 검은색 텍스트
+            : "bg-transparent text-black" // 경로에 있을 때 투명 배경과 검은색 텍스트
           : isScroll
-          ? "bg-white text-black"
-          : "bg-transparent text-white"
+          ? "bg-white text-black" // 스크롤 중일 때 흰색 배경과 검은색 텍스트
+          : "bg-transparent text-white" // 투명 배경과 흰색 텍스트
       }`}
     >
       <div className="flex justify-between p-8">
         <Link to="/">
-          <h1 className="text-4xl font-customFont m-3 transform hover:scale-110 hover:text-black">
+          <h1
+            className="text-4xl font-customFont m-3 transform hover:scale-110 hover:text-black"
+            style={{
+              color: "white",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)",
+            }}
+          >
             <span className="stroke-black stroke-1 font-bold">1jowon</span>
           </h1>
         </Link>
@@ -62,8 +68,21 @@ export default function Navigation() {
             onClick={toggleMenu}
             className="p-3 font-customFont text-3xl cursor-pointer flex items-center relative group transform hover:text-black hover:scale-110"
           >
-            <span className="stroke-black stroke-1 font-bold"> My Page</span>
-            {isOpen ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
+            <span
+              style={{
+                color: "white",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)",
+              }}
+              className="stroke-black stroke-1 font-bold"
+            >
+              {" "}
+              My Page
+            </span>
+            {isOpen ? (
+              <IoChevronUpOutline className="text-white" />
+            ) : (
+              <IoChevronDownOutline className="text-white" />
+            )}
             {isOpen && <PageMenu />}
           </li>
         </ul>
