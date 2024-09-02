@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Contests from "./pages/Contests/Contests";
 import Like from "./pages/Likes/Like";
-import ContestDetail from "./pages/Contests/ContestDetail";
+import ContestDetail from "./pages/ContestDetail/ContestDetail";
 
 const router = createBrowserRouter([
   {
