@@ -2,18 +2,17 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useFetchDetail } from "../../hooks/useFetchDetail";
 import ContestInfo from "./ContestInfo";
-
 import ContestButtons from "./ContestButton";
 import useModal from "../../hooks/useModal";
-import { Modal } from "../../components/Modal/Modal";
 import ContestModal from "../Survey/ContestModal";
+import { useToggleLike } from "../../hooks/useToggleLike";
 
 export default function ContestDetail() {
   const { id } = useParams();
-  console.log(id);
-
   const { video, loading, error } = useFetchDetail(id);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
+
+  const { state, toggleLike } = useToggleLike(id, video); // useToggleLike 훅 사용
 
   if (loading) return <div className="text-center text-white">Loading...</div>;
   if (error)
@@ -24,7 +23,7 @@ export default function ContestDetail() {
     );
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center mt-40 mb-12">
+    <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center mt-28 mb-12">
       <section className="w-5/6 h-5/6 flex flex-col md:flex-row p-6 md:p-12 items-center justify-between bg-gray-800 rounded-lg shadow-lg">
         <div className="w-full mb-8">
           <h1 className="text-3xl font-bold mb-6">{video.제목}</h1>
@@ -40,7 +39,11 @@ export default function ContestDetail() {
           <ContestButtons openModal={openModal} /> {/* openModal 함수를 전달 */}
         </div>
       </section>
-      <ContestModal isOpen={isOpen} closeModal={closeModal} />
+      <ContestModal
+        toggleLike={toggleLike}
+        isOpen={isOpen}
+        closeModal={closeModal}
+      />
     </div>
   );
 }

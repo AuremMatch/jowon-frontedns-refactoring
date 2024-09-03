@@ -3,7 +3,7 @@ import { BsChevronDoubleDown } from "react-icons/bs";
 import { Element } from "react-scroll";
 import Scrolls from "../../components/scroll/Scrolls";
 
-export default function About({ scrollToSection }) {
+export default function About() {
   return (
     <Element name="about" className="bg-black p-24">
       <div className="flex">

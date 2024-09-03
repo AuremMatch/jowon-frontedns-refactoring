@@ -12,6 +12,10 @@ export function useSubmitResponse() {
 
   const submitResponse = async (e, state, dispatch, toggleLike, closeModal) => {
     e.preventDefault();
+    // 사용하려는 부분에서 toggleLike가 함수로 전달되었는지 확인
+    if (typeof toggleLike !== "function") {
+      throw new TypeError("toggleLike is not a function");
+    }
     const { questions, responses, isTeam, teamMembers } = state;
 
     const selectedChoices = questions.map(
