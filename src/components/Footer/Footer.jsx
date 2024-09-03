@@ -35,7 +35,7 @@ export default function Footer() {
 
       {/* 하단 개발자 정보 섹션 */}
       <div className="p-4 text-center border-t border-gray-700">
-        <p>개발자: 윤동규 | 김민혁</p>
+        <p>개발자: 윤동규 | 김민혁 | 장준호</p>
       </div>
     </div>
   );
