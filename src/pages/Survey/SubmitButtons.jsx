@@ -1,6 +1,7 @@
 // components/SubmitButtons.js
 
 import React from "react";
+import Button from "../../components/Button/Button";
 
 export default function SubmitButtons({
   submitResponse,
@@ -11,23 +12,19 @@ export default function SubmitButtons({
 }) {
   return (
     <div className="flex justify-center space-x-4 mt-4">
-      <button
+      <Button
+        label="팀생성"
         type="button"
-        className="bg-yellow-500 text-white px-4 py-2 rounded"
         onClick={(e) =>
           submitResponse(e, state, dispatch, toggleLike, closeModal)
         }
       >
         팀생성
-      </button>
+      </Button>
 
-      <button
-        type="button"
-        className="bg-red-500 text-white px-4 py-2 rounded"
-        onClick={closeModal}
-      >
+      <Button label="닫기" type="button" onClick={closeModal}>
         닫기
-      </button>
+      </Button>
     </div>
   );
 }

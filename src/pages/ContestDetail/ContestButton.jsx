@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../components/Button/Button";
 
 export default function ContestButtons({ openModal }) {
   return (
@@ -7,16 +8,5 @@ export default function ContestButtons({ openModal }) {
       <Button label="추가모집" />
       <Button label="지원현황" />
     </div>
-  );
-}
-
-function Button({ label, onClick }) {
-  return (
-    <button
-      className="bg-slate-500 hover:bg-black transition duration-300 hover:scale-110 text-white font-bold py-6 px-12 rounded whitespace-nowrap"
-      onClick={onClick} // onClick prop을 button 요소에 전달
-    >
-      {label}
-    </button>
   );
 }

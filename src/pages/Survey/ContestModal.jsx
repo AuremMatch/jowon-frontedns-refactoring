@@ -39,7 +39,7 @@ export default function ContestModal({ isOpen, closeModal, toggleLike }) {
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
       <div
-        className="bg-white p-10 rounded-lg w-full max-w-4xl max-h-screen overflow-y-scroll"
+        className="bg-white p-10 rounded-lg w-full max-w-full max-h-screen overflow-y-scroll "
         ref={modalRef}
       >
         <ButtonGroup isTeam={state.isTeam} dispatch={dispatch} />

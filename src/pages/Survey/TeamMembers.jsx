@@ -2,6 +2,8 @@
 
 import React from "react";
 import QuestionsForm from "./QuestionForm";
+import Button from "../../components/Button/Button";
+import { FaPlus } from "react-icons/fa6";
 
 export default function TeamMembers({
   teamMembers,
@@ -42,13 +44,12 @@ export default function TeamMembers({
           </button>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={() => dispatch({ type: "ADD_TEAM_MEMBER" })}
-        className="bg-green-500 text-white px-4 py-2 rounded"
-      >
-        팀원 추가
-      </button>
+      <div className="flex justify-center p-12">
+        <FaPlus
+          className="text-5xl text-black transition duration-300 hover:scale-110 flex justify-center"
+          onClick={() => dispatch({ type: "ADD_TEAM_MEMBER" })}
+        />
+      </div>
     </div>
   );
 }
