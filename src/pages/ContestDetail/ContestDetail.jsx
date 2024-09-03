@@ -6,7 +6,7 @@ import ContestInfo from "./ContestInfo";
 import ContestButtons from "./ContestButton";
 import useModal from "../../hooks/useModal";
 import { Modal } from "../../components/Modal/Modal";
-import ContestModal from "./ContestModal";
+import ContestModal from "../Survey/ContestModal";
 
 export default function ContestDetail() {
   const { id } = useParams();
