@@ -36,7 +36,8 @@ export default function ContestDetail() {
 
         <div className="w-full md:w-1/2 ml-24">
           <ContestInfo video={video} />
-          <ContestButtons openModal={openModal} /> {/* openModal 함수를 전달 */}
+          <ContestButtons openModal={openModal} apply={state.apply} />{" "}
+          {/* openModal 함수를 전달 */}
         </div>
       </section>
       <ContestModal
