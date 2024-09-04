@@ -55,27 +55,38 @@ export default function About() {
             </div>
           </div>
           <div>
-            <div className="flex text-2xl justify-center font-bold mb-4 mt-12 font-customFont text-left">
-              Steven Jobs - "나의 최고의 작품은 팀이다. 훌륭한 팀 없이는 어떤
-              것도 이룰 수 없다." ("My greatest work is the team. Without a
-              great team, nothing can be accomplished.")
+            <div className="flex text-2xl justify-center font-bold mb-4 mt-12 font-customFont text-left flex-col">
+              Steven Jobs -{" "}
+              <span className="text-base">
+                "나의 최고의 작품은 팀이다. 훌륭한 팀 없이는 어떤 것도 이룰 수
+                없다." ("My greatest work is the team. Without a great team,
+                nothing can be accomplished.")
+              </span>
               <br />
               <br />
-              헨리 포드 (Henry Ford) - "함께 모이는 것은 시작이고, 함께 머무는
-              것은 발전이며, 함께 일하는 것은 성공이다." ("Coming together is a
-              beginning, staying together is progress, and working together is
-              success.")
+              헨리 포드 (Henry Ford) -{" "}
+              <span className="text-base">
+                "함께 모이는 것은 시작이고, 함께 머무는 것은 발전이며, 함께
+                일하는 것은 성공이다." ("Coming together is a beginning, staying
+                together is progress, and working together is success.")
+              </span>
               <br />
               <br />
-              마이클 조던 (Michael Jordan) - "재능은 경기를 이기게 하지만,
-              팀워크와 지성은 챔피언십을 이기게 한다." ("Talent wins games, but
-              teamwork and intelligence win championships.")
+              마이클 조던 (Michael Jordan) -{" "}
+              <span className="text-base">
+                "재능은 경기를 이기게 하지만, 팀워크와 지성은 챔피언십을 이기게
+                한다." ("Talent wins games, but teamwork and intelligence win
+                championships.")
+              </span>
               <br />
               <br />
-              앤드류 카네기 (Andrew Carnegie) - "팀워크는 평범한 사람들을 비범한
-              결과로 이끌 수 있는 능력이다." ("Teamwork is the ability to work
-              together toward a common vision. It is the fuel that allows common
-              people to attain uncommon results.")
+              앤드류 카네기 (Andrew Carnegie) -{" "}
+              <span className="text-base">
+                "팀워크는 평범한 사람들을 비범한 결과로 이끌 수 있는 능력이다."
+                ("Teamwork is the ability to work together toward a common
+                vision. It is the fuel that allows common people to attain
+                uncommon results.")
+              </span>
             </div>
           </div>
         </Slider>

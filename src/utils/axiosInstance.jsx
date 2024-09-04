@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const getAxiosInstance = () => {
+const axiosInstance = () => {
   const userToken = Cookies.get("csrftoken") || "";
   console.log(userToken);
 
@@ -13,4 +13,4 @@ const getAxiosInstance = () => {
   });
 };
 
-export default getAxiosInstance();
+export default axiosInstance();

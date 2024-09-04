@@ -6,7 +6,7 @@ const TeamCard = ({ data, teamName, image, rank }) => {
 
   return (
     <Link
-      to={`/pictures/conversations/${data.id}`}
+      to={`/teammatching/${data.id}`}
       className="flex mr-8 mt-16 mb-16 rounded-lg shadow-md cursor-pointer transform hover:scale-105 transition ease-in-out w-96 h-auto text-black bg-white relative"
     >
       {/* 이미지 */}

@@ -11,6 +11,7 @@ import ContestDetail from "./pages/ContestDetail/ContestDetail";
 
 import Apply from "./pages/Apply/Apply";
 import TeamList from "./pages/TeamMatching/TeamList";
+import TeamDetail from "./pages/TeamMatching/TeamDetail";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: "contests/:id", element: <ContestDetail /> },
       { path: "contests/:id/apply", element: <Apply /> },
       { path: "teammatching", element: <TeamList /> },
+      { path: "teammatching/:id", element: <TeamDetail /> },
     ],
   },
 ]);
