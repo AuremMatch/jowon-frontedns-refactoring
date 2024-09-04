@@ -19,6 +19,7 @@ import TeamEvaluation from "./TeamEvalution";
 import useModal from "../../hooks/useModal";
 import axiosInstance from "../../utils/axiosInstance";
 import MiniProfileCard from "./MiniProfileCard";
+import { useSendMessage } from "../../hooks/useSendMessage";
 
 // Chart.js에 필요한 컴포넌트를 등록합니다.
 ChartJS.register(
@@ -61,20 +62,17 @@ export default function TeamDetail() {
   const handleFileChange = (e) =>
     dispatch({ type: "SET_SELECTED_FILE", payload: e.target.files[0] });
 
-  const sendMessage = async () => {
-    try {
-      await axiosInstance.post(
-        `http://127.0.0.1:8000/conversations/messages/`,
-        {
-          message: messages,
-          conversation_id: id,
-          conversation: id,
-        }
-      );
+  const {
+    sendMessage,
+    loading: messageLoading,
+    error: messageError,
+  } = useSendMessage(id);
+
+  const handleSendMessage = async () => {
+    const success = await sendMessage(messages);
+    if (success) {
       dispatch({ type: "SET_MESSAGES", payload: "" });
-      window.location.reload();
-    } catch (error) {
-      console.error("Error sending message:", error);
+      window.location.reload(); // 메시지 전송 후 페이지를 새로고침합니다.
     }
   };
 
@@ -110,21 +108,22 @@ export default function TeamDetail() {
         },
         pointLabels: {
           display: true,
-          font: { size: 20 },
+          font: { size: 16, weight: "bold" }, // 글꼴 크기 및 가중치 조정
+          color: "#fff", // 색상 변경
         },
-        ticks: { beginAtZero: true },
+        ticks: { beginAtZero: true, color: "#fff" }, // 눈금 색상 변경
       },
     },
     layout: {
-      padding: { top: 100 },
+      padding: { top: 50 }, // 레이아웃 조정
     },
     onClick: (event) => {
-      openRadarModal();
+      dispatch({ type: "TOGGLE_MODAL_OPENS" });
     },
   };
 
   return (
-    <section id="home" className="">
+    <section id="home" className="bg-gray-900 text-white">
       <div className="relative w-full h-0" style={{ paddingBottom: "40%" }}>
         <div className="absolute inset-0 flex items-center justify-center">
           <img
@@ -147,7 +146,11 @@ export default function TeamDetail() {
             )}
           </button>
         </div>
-        <div className={`border w-1/4 p-10 ${isExpanded ? "" : "hidden"}`}>
+        <div
+          className={`border w-1/4 p-6 bg-gray-800 rounded-lg ${
+            isExpanded ? "" : "hidden"
+          }`}
+        >
           <span className="text-center w-full block text-lg font-medium">
             <h2>Conversation for </h2>
           </span>
@@ -161,8 +164,8 @@ export default function TeamDetail() {
             ))}
           </div>
         </div>
-        <div className="border flex-grow ml-10 p-10 flex flex-col">
-          <div className="border mb-6 flex items-center justify-center rounded p-2">
+        <div className="border flex-grow ml-10 p-6 flex flex-col bg-gray-800 rounded-lg">
+          <div className="border mb-6 flex items-center justify-center rounded p-2 bg-gray-700 text-white">
             {video.teamName}
           </div>
           {video.messages.map((message, index) => (
@@ -175,14 +178,14 @@ export default function TeamDetail() {
               <img
                 alt={message.user.username}
                 src={message.user.avatar}
-                className={`w-20 h-20 rounded-full ml-4 ${
+                className={`w-16 h-16 rounded-full ml-4 ${
                   message.user.id !== 1
                     ? "bg-teal-500 text-black"
                     : "bg-gray-300"
                 }`}
               />
               <div
-                className={`p-5 rounded ${
+                className={`p-4 rounded-lg ${
                   message.user.id !== 1
                     ? "bg-teal-500 text-white"
                     : "bg-gray-300 text-black"
@@ -204,36 +207,35 @@ export default function TeamDetail() {
               }
             />
             <button
-              onClick={sendMessage}
-              className="bg-teal-500 text-white px-10 items-center rounded focus:outline-none flex"
-              style={{ flexDirection: "row" }}
+              onClick={handleSendMessage}
+              className="font-customFont bg-teal-500 text-white px-8 py-2 text-2xl   rounded-lg focus:outline-none flex items-center hover:bg-teal-700 transition duration-300 ease-in-out"
             >
-              <span className="w-8 py-3">전송</span>
+              send
             </button>
           </div>
         </div>
         <div
-          className={`border w-1/4 p-10 ml-12 flex justify-center flex-col ${
+          className={`border w-1/4 p-6 ml-12 flex justify-center flex-col bg-gray-800 rounded-lg ${
             isThirdExpanded ? "" : "hidden"
           }`}
         >
-          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer ">
+          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg">
             <FaImage className="mr-4" size={24} /> <>사진/동영상</>
           </button>
           <div className="flex justify-between mt-10 items-center"></div>
-          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer ">
+          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg">
             <FaFile className="mr-4" size={24} /> <>파일</>
           </button>
           <div className="flex justify-between mt-10 items-center"></div>
           <button
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer"
+            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg"
             onClick={() => dispatch({ type: "TOGGLE_MODAL_OPENS" })}
           >
             <FaBomb className="mr-4" size={24} /> <>팀파기</>
           </button>
           <div className="flex justify-between mt-10 items-center"></div>
           <button
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer "
+            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg"
             onClick={() => document.getElementById("fileInput").click()}
           >
             <FaStar className="mr-4" size={24} /> <>성과올리기</>
@@ -247,7 +249,7 @@ export default function TeamDetail() {
           <div className="flex justify-between mt-10 items-center"></div>
           <button
             onClick={openTeamEvaluationModal}
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-red-400 text-black items-center hover:bg-black hover:text-white cursor-pointer "
+            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-red-500 text-white items-center hover:bg-red-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg"
           >
             <FiX className="mr-4" size={24} /> <>활동종료</>
           </button>
@@ -262,7 +264,7 @@ export default function TeamDetail() {
           </button>
         </div>
       </div>
-      <div className="border p-10 container mx-auto min-h-80 mt-24 mb-40">
+      <div className="border p-10 container mx-auto min-h-80 mt-24 mb-40 bg-gray-800 rounded-lg">
         <div style={{ display: "flex", justifyContent: "center" }}>
           <div style={{ width: "800px", height: "800px" }}>
             <Radar data={data} options={options} />
