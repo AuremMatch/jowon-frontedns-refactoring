@@ -118,7 +118,7 @@ export default function TeamDetail() {
       padding: { top: 50 }, // 레이아웃 조정
     },
     onClick: (event) => {
-      dispatch({ type: "TOGGLE_MODAL_OPENS" });
+      openRadarModal();
     },
   };
 

@@ -41,6 +41,8 @@ function reducer(state, action) {
       return { ...state, isModalOpens: !state.isModalOpens };
     case "SET_SELECTED_FILE":
       return { ...state, selectedFile: action.payload };
+    case "TOGGLE_RADAR_MODAL":
+      return { ...state, isRadarModalOpen: !state.isRadarModalOpen }; // RadarModal 상태 토글 액션 추가
     default:
       return state;
   }
