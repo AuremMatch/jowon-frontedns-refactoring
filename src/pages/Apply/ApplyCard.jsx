@@ -1,34 +1,33 @@
 import React from "react";
 
 export default function ApplyCard({ user }) {
-  // username에서 가운데 글자를 'o'로 가리는 함수
-  const maskUsername = (username) => {
-    const length = username.length;
-
-    if (length < 2) return username; // 길이가 3 미만이면 가리지 않음
-
-    const middleIndex = Math.floor(length / 2); // 가운데 인덱스 계산
-
-    // username을 배열로 나눠서 가운데 글자/글자들을 'o'로 바꾸고 다시 문자열로 합침
-    return username
-      .split("")
-      .map((char, index) =>
-        index === middleIndex || (length % 2 === 0 && index === middleIndex - 1)
-          ? "o"
-          : char
-      )
-      .join("");
-  };
   return (
-    <div className="flex items-center">
+    <div className="flex flex-col items-center bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-200">
       <img
         src={user.avatar}
-        alt={`${user.이름}'s avatar`}
-        className="w-16 h-16 rounded-full mr-4 border-2 border-gray-300"
+        alt={`${user.username}'s avatar`}
+        className="w-24 h-24 rounded-full mb-4 border-4 border-gray-300 shadow-lg"
       />
-      <div className="flex justify-center flex-col ml-20">
-        <p className="text-lg">{maskUsername(user.username)}</p>
-      </div>
+      <p className="text-xl font-semibold text-white text-center">
+        {maskUsername(user.username)}
+      </p>
     </div>
   );
 }
+
+// 사용자가 가운데 글자를 'o'로 가리는 함수 그대로 사용합니다.
+const maskUsername = (username) => {
+  const length = username.length;
+
+  if (length < 3) return username;
+
+  const middleIndex = Math.floor(length / 2);
+  return username
+    .split("")
+    .map((char, index) =>
+      index === middleIndex || (length % 2 === 0 && index === middleIndex - 1)
+        ? "o"
+        : char
+    )
+    .join("");
+};

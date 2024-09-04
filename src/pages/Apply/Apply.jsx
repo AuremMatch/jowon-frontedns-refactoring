@@ -8,39 +8,14 @@ import ContestButtons from "../ContestDetail/ContestButton";
 import ContestModal from "../Survey/ContestModal";
 import ApplyCard from "./ApplyCard";
 import Footer from "../../components/Footer/Footer";
+import { useFetchApplicants } from "../../hooks/useFetchApplicants";
 
 export default function Apply() {
   const { id } = useParams();
   const { navigate } = useNavigate();
   const { isOpen, openModal, closeModal } = useModal();
-  const userToken = Cookies.get("csrftoken") || "";
-  const axiosInstance = axios.create({
-    withCredentials: true,
-    headers: {
-      "X-CSRFToken": userToken,
-    },
-  });
-
-  const [userData, setUserData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchApplicants = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `http://127.0.0.1:8000/contests/${id}/applicants/`
-        );
-        setUserData(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        setError("Network response was not ok");
-        setIsLoading(false);
-      }
-    };
-
-    fetchApplicants();
-  }, [id, axiosInstance]);
+  // 커스텀 훅 사용
+  const { userData, isLoading, error } = useFetchApplicants(id);
 
   if (isLoading) {
     return <div className="text-center text-white">Loading...</div>;

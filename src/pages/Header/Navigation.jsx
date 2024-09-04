@@ -7,7 +7,7 @@ import MenuItem from "./MenuItem";
 const menuItems = [
   { name: "Contests" },
   { name: "Likes" },
-  { name: "Team Matching" },
+  { name: "TeamMatching" },
 ];
 
 export default function Navigation() {
