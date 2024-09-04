@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFetchDetail } from "../../hooks/useFetchDetail";
 import ContestInfo from "./ContestInfo";
 import ContestButtons from "./ContestButton";
@@ -9,6 +9,11 @@ import { useToggleLike } from "../../hooks/useToggleLike";
 
 export default function ContestDetail() {
   const { id } = useParams();
+  const { navigate } = useNavigate();
+
+  const navToApply = () => {
+    navigate(`/contests/${id}/apply`);
+  };
   const { video, loading, error } = useFetchDetail(id);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
 
@@ -36,7 +41,11 @@ export default function ContestDetail() {
 
         <div className="w-full md:w-1/2 ml-24">
           <ContestInfo video={video} />
-          <ContestButtons openModal={openModal} apply={state.apply} />{" "}
+          <ContestButtons
+            nav={navToApply}
+            openModal={openModal}
+            apply={state.apply}
+          />{" "}
           {/* openModal 함수를 전달 */}
         </div>
       </section>

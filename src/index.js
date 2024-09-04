@@ -9,6 +9,8 @@ import Contests from "./pages/Contests/Contests";
 import Like from "./pages/Likes/Like";
 import ContestDetail from "./pages/ContestDetail/ContestDetail";
 
+import Apply from "./pages/Apply/Apply";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
       { path: "contests", element: <Contests /> }, // /contests 경로는 Contests 컴포넌트를 렌더링
       { path: "likes", element: <Like /> }, // /contests 경로는 Contests 컴포넌트를 렌더링
       { path: "contests/:id", element: <ContestDetail /> },
+      { path: "contests/:id/apply", element: <Apply /> },
     ],
   },
 ]);
