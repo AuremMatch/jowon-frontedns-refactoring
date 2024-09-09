@@ -79,9 +79,19 @@ export default function Navigation() {
               My Page
             </span>
             {isOpen ? (
-              <IoChevronUpOutline className="text-white" />
+              <IoChevronUpOutline
+                className="text-white"
+                style={{
+                  filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8))",
+                }}
+              />
             ) : (
-              <IoChevronDownOutline className="text-white" />
+              <IoChevronDownOutline
+                className="text-white"
+                style={{
+                  filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8))",
+                }}
+              />
             )}
             {isOpen && <PageMenu />}
           </li>
