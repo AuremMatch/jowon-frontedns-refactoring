@@ -4,11 +4,13 @@ import { LoginContext } from "../../context/LoginContext";
 
 const LoginModal = ({ isOpen, closeModal }) => {
   const { login } = useContext(LoginContext);
+  console.log(login);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     // 임시로 로그인 성공 처리
+    console.log("로그인 시도:", username, password);
     const userData = { username }; // 서버 요청해서 가져올 사용자 정보라고 가정
     login(userData);
     closeModal(); // 로그인 성공 후 모달 닫기

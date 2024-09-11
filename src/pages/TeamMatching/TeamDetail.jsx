@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Radar } from "react-chartjs-2";
 import {
@@ -20,6 +20,8 @@ import useModal from "../../hooks/useModal";
 import axiosInstance from "../../utils/axiosInstance";
 import MiniProfileCard from "./MiniProfileCard";
 import { useSendMessage } from "../../hooks/useSendMessage";
+import MessageInput from "./MessageInput";
+import TeamActions from "./TeamActions";
 
 // Chart.js에 필요한 컴포넌트를 등록합니다.
 ChartJS.register(
@@ -37,13 +39,15 @@ export default function TeamDetail() {
   const id = location.pathname.split("/").pop();
   const { state, dispatch } = useTeamDetail(id);
   const { video, codingScores, messages, isExpanded, isThirdExpanded } = state;
+  const [isModalOpens, setIsModalOpens] = useState(false); // 모달 상태 관리
 
-  // useModal 훅 사용
-  const {
-    isOpen: isRadarModalOpen,
-    openModal: openRadarModal,
-    closeModal: closeRadarModal,
-  } = useModal();
+  const openModals = () => {
+    setIsModalOpens(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpens(false);
+  };
 
   const {
     isOpen: isMessageModalOpen,
@@ -118,8 +122,17 @@ export default function TeamDetail() {
       padding: { top: 50 }, // 레이아웃 조정
     },
     onClick: (event) => {
-      openRadarModal();
+      console.log("레이더클릭");
+
+      openModals();
     },
+  };
+  const handleConfirm = () => {
+    console.log("Team member will be added.");
+    openMessageModal(); // RadarModal 확인 시 MessageModal 열기
+
+    // addBestCandidate(); // 팀원 추가 로직 호출
+    closeModal(); // 모달 닫기
   };
 
   return (
@@ -168,91 +181,31 @@ export default function TeamDetail() {
           <div className="border mb-6 flex items-center justify-center rounded p-2 bg-gray-700 text-white">
             {video.teamName}
           </div>
-          {video.messages.map((message, index) => (
-            <div
-              key={index}
-              className={`mb-10 flex items-center ${
-                message.user.id !== 1 ? "flex-row-reverse" : ""
-              }`}
-            >
-              <img
-                alt={message.user.username}
-                src={message.user.avatar}
-                className={`w-16 h-16 rounded-full ml-4 ${
-                  message.user.id !== 1
-                    ? "bg-teal-500 text-black"
-                    : "bg-gray-300"
-                }`}
-              />
-              <div
-                className={`p-4 rounded-lg ${
-                  message.user.id !== 1
-                    ? "bg-teal-500 text-white"
-                    : "bg-gray-300 text-black"
-                }`}
-                style={{ marginLeft: message.user.id !== 1 ? "0" : "12px" }}
-              >
-                <div>{message.message}</div>
-              </div>
-            </div>
-          ))}
-          <div className="mt-6 flex items-center w-full justify-center text-black">
-            <input
-              type="text"
-              className="rounded w-10/12 border-gray-300 border p-2 mr-2 focus:outline-none focus:border-teal-500"
-              placeholder="메시지를 입력하세요..."
-              value={messages}
-              onChange={(e) =>
-                dispatch({ type: "SET_MESSAGES", payload: e.target.value })
-              }
-            />
-            <button
-              onClick={handleSendMessage}
-              className="font-customFont bg-teal-500 text-white px-8 py-2 text-2xl   rounded-lg focus:outline-none flex items-center hover:bg-teal-700 transition duration-300 ease-in-out"
-            >
-              send
-            </button>
-          </div>
+          <MessageInput
+            messages={messages}
+            handleSendMessage={handleSendMessage}
+            setMessage={(msg) =>
+              dispatch({ type: "SET_MESSAGES", payload: msg })
+            }
+          />
         </div>
         <div
           className={`border w-1/4 p-6 ml-12 flex justify-center flex-col bg-gray-800 rounded-lg ${
             isThirdExpanded ? "" : "hidden"
           }`}
         >
-          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg">
-            <FaImage className="mr-4" size={24} /> <>사진/동영상</>
-          </button>
-          <div className="flex justify-between mt-10 items-center"></div>
-          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg">
-            <FaFile className="mr-4" size={24} /> <>파일</>
-          </button>
-          <div className="flex justify-between mt-10 items-center"></div>
-          <button
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg"
-            onClick={() => dispatch({ type: "TOGGLE_MODAL_OPENS" })}
-          >
-            <FaBomb className="mr-4" size={24} /> <>팀파기</>
-          </button>
-          <div className="flex justify-between mt-10 items-center"></div>
-          <button
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-gray-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg"
-            onClick={() => document.getElementById("fileInput").click()}
-          >
-            <FaStar className="mr-4" size={24} /> <>성과올리기</>
-          </button>
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <div className="flex justify-between mt-10 items-center"></div>
-          <button
-            onClick={openTeamEvaluationModal}
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-red-500 text-white items-center hover:bg-red-700 hover:text-white cursor-pointer transition duration-300 ease-in-out rounded-lg"
-          >
-            <FiX className="mr-4" size={24} /> <>활동종료</>
-          </button>
+          {isThirdExpanded && (
+            <TeamActions
+              dispatch={dispatch}
+              handleFileChange={(e) =>
+                dispatch({
+                  type: "SET_SELECTED_FILE",
+                  payload: e.target.files[0],
+                })
+              }
+              openTeamEvaluationModal={openTeamEvaluationModal}
+            />
+          )}
         </div>
         <div className="flex justify-center">
           <button onClick={toggleThirdSection} className="focus:outline-none">
@@ -270,11 +223,13 @@ export default function TeamDetail() {
             <Radar data={data} options={options} />
           </div>
         </div>
-        <RadarModal
-          isOpen={isRadarModalOpen}
-          onRequestClose={closeRadarModal}
-          onConfirm={closeRadarModal}
-        />
+        {isModalOpens && (
+          <RadarModal
+            isOpen={isModalOpens}
+            onRequestClose={closeModal}
+            onConfirm={handleConfirm}
+          />
+        )}
       </div>
       <TeamEvaluation
         participants={video.participants}

@@ -1,30 +1,66 @@
-import React from "react";
-import { Modal as CustomModal } from "./Modal"; // 이미 정의된 Modal 컴포넌트 가져오기
+import React, { useState } from "react";
+import Modal from "react-modal";
 
 const RadarModal = ({ isOpens, onRequestClose, onConfirm }) => {
   return (
-    <CustomModal isOpen={isOpens} closeModal={onRequestClose}>
-      <div className="p-4">
-        <p className="text-black">
-          <span className="font-bold text-2xl">배포</span> 부분에서 가장 높은
-          점수를 가진 지원자를 팀에 추가하시겠습니까?
-        </p>
-        <div className="flex justify-between mt-4">
-          <button
-            className="px-4 py-2 bg-black text-white rounded-md"
-            onClick={onConfirm}
-          >
-            확인
-          </button>
-          <button
-            className="px-4 py-2 bg-white text-black border border-gray-300 rounded-md"
-            onClick={onRequestClose}
-          >
-            취소
-          </button>
-        </div>
+    <Modal
+      isOpen={isOpens}
+      onRequestClose={onRequestClose}
+      style={{
+        content: {
+          top: "50%",
+          left: "50%",
+          right: "auto",
+          bottom: "auto",
+          marginRight: "-50%",
+          transform: "translate(-50%, -50%)",
+          padding: "20px",
+          borderRadius: "10px",
+        },
+        overlay: {
+          backgroundColor: "rgba(0, 0, 0, 0.75)",
+        },
+      }}
+    >
+      <p className="text-black">
+        <p className="font-bold text-2xl">배포</p> 부분에서 가장 높은 점수를
+        가진 지원자를 팀에 추가하시겠습니까?
+      </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "20px",
+        }}
+      >
+        <button
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "black",
+            color: "#FFF",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+          onClick={onConfirm}
+        >
+          확인
+        </button>
+        <button
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "white",
+            color: "black",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+          onClick={onRequestClose}
+        >
+          취소
+        </button>
       </div>
-    </CustomModal>
+    </Modal>
   );
 };
 

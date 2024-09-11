@@ -12,11 +12,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Navigation />
-        <main>
-          <Outlet /> {/* 자식 라우트를 여기서 렌더링 */}
-        </main>
-        <Footer />
       </AuthProvider>
+      <main>
+        <Outlet /> {/* 자식 라우트를 여기서 렌더링 */}
+      </main>
+      <Footer />
     </QueryClientProvider>
   );
 }

@@ -13,6 +13,7 @@ import Apply from "./pages/Apply/Apply";
 import TeamList from "./pages/TeamMatching/TeamList";
 import TeamDetail from "./pages/TeamMatching/TeamDetail";
 import Profile from "./pages/Profile/Profile";
+import Notification from "./pages/Notification/Notification";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "teammatching", element: <TeamList /> },
       { path: "teammatching/:id", element: <TeamDetail /> },
       { path: "profile", element: <Profile /> },
+      { path: "noti", element: <Notification /> },
     ],
   },
 ]);

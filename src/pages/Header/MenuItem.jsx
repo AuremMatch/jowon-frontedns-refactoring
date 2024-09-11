@@ -26,8 +26,8 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
   return (
     <>
       {name.toLowerCase() === "login" ? (
-        <div
-          onClick={openModal}
+        <Link
+          to="/login"
           className={`p-3 cursor-pointer font-customFont text-3xl transition duration-200 ease-in-out transform hover:text-black hover:scale-110 ${textColor} ${className}`}
         >
           <p
@@ -39,7 +39,7 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
           >
             {name}
           </p>
-        </div>
+        </Link>
       ) : (
         <Link
           to={path}
@@ -55,9 +55,6 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
             {name}
           </p>
         </Link>
-      )}
-      {name.toLowerCase() === "login" && (
-        <LoginModal isOpen={isModalOpen} closeModal={closeModal} />
       )}
     </>
   );
