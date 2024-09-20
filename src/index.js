@@ -14,6 +14,7 @@ import TeamList from "./pages/TeamMatching/TeamList";
 import TeamDetail from "./pages/TeamMatching/TeamDetail";
 import Profile from "./pages/Profile/Profile";
 import Notification from "./pages/Notification/Notification";
+import Login from "./pages/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "teammatching/:id", element: <TeamDetail /> },
       { path: "profile", element: <Profile /> },
       { path: "noti", element: <Notification /> },
+      { path: "login", element: <Login /> },
     ],
   },
 ]);
