@@ -7,7 +7,7 @@
 통계 및 그래프: 각 팀원들의 역량을 시각화하여 보다 효과적으로 팀을 구성할 수 있도록 도와줍니다.
 수상 이력
 이 프로젝트는 AWS 전북 3개학교 연합 해커톤에서 대상을 수상한 작품으로, 2024 겨울 AWS 해커톤 초청작으로 선정되었습니다.
-![Eniac Club Homepage Main](imgs/ad.png)
+![Eniac Club Homepage Main](imgs/ad.jpeg)
 
 사용 기술
 프론트엔드: React, Context API
