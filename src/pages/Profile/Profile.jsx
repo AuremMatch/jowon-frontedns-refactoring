@@ -5,6 +5,25 @@ import { ProfileInfo } from "./ProfileInfo";
 import { ProfileChart } from "./ProfileChart";
 import { ProfileModal } from "./ProfileModal";
 import { ProfileActions } from "./ProfileActions";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+// Register necessary components for radar chart
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
 
 export default function Profile() {
   const { userData, score, coding, loading, error } = useProfileData();
