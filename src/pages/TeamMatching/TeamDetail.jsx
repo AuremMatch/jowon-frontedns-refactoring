@@ -28,6 +28,10 @@ import { useRef } from "react";
 import MessageModal from "../../components/Modal/MessageModal";
 import RadarModal from "../../components/Modal/RadarModal";
 import TeamEvaluation from "./TeamEvalution";
+import MiniProfileList from "./MiniProfileList";
+import MessageSection from "./MessageSection";
+import MessageList from "./MessageList";
+import MessageInput from "./MessageInput";
 
 const NextArrow = (props) => (
   <div {...props}>
@@ -529,17 +533,15 @@ const TeamDetail = () => {
         top: 100, // 상단 패딩
       },
     },
-    onClick: (event) => {
-      console.log("hello");
+    onClick: (event, elements, chart) => {
+      if (elements.length > 0) {
+        const clickedIndex = elements[0].index;
+        const clickedLabel = chart.data.labels[clickedIndex]; // 클릭한 레이블 가져오기
+        console.log(clickedLabel);
 
-      openModals(); // 모달 열기();
-
-      // if (confirmAdd) {
-      //   console.log("Team member will be added.");
-      //   // addBestCandidate(minAverageLabel);
-      //   // 여기에 추가적인 로직을 넣을 수 있습니다.
-      //   addBestCandidate();
-      // }
+        setClickedLabel(clickedLabel); // 상태에 저장
+        openModals();
+      }
     },
   };
 
@@ -666,71 +668,17 @@ const TeamDetail = () => {
             )}
           </button>
         </div>
-        <div className={`border w-1/4 p-10 ${isExpanded ? "" : "hidden"}`}>
-          <span className="text-center w-full block text-lg font-medium">
-            <h2>Conversation for </h2>
-          </span>
-          <div className="grid grid-cols-2 justify-between mt-10 items-center">
-            {video.participants.map((participant, index) => (
-              <MiniProfileCard
-                key={participant.id}
-                participant={participant}
-                isFirst={index === 0}
-              />
-            ))}
-          </div>
-        </div>
+        {isExpanded && <MiniProfileList participants={video.participants} />}
         <div className="border flex-grow ml-10 p-10 flex flex-col">
           <div className="border mb-6 flex items-center justify-center rounded p-2">
             {video.teamName}
           </div>
-          {video.messages.map((message, index) => (
-            <div
-              key={index}
-              className={`mb-10 flex items-center ${
-                message.user.id !== 1 ? "flex-row-reverse" : ""
-              }`}
-            >
-              <img
-                alt={message.user.username}
-                src={message.user.avatar}
-                className={`w-20 h-20 rounded-full ml-4 ${
-                  message.user.id !== 1
-                    ? "bg-teal-500 text-black"
-                    : "bg-gray-300"
-                }`}
-              />
-              <div
-                className={`p-5 rounded ${
-                  message.user.id !== 1
-                    ? "bg-teal-500 text-white"
-                    : "bg-gray-300 text-black"
-                }`}
-                style={{
-                  marginLeft: message.user.id !== 1 ? "0" : "12px",
-                  color: message.user.id === 1 ? "black" : "",
-                }}
-              >
-                <div>{message.message}</div>
-              </div>
-            </div>
-          ))}
-          <div className="mt-6 flex items-center w-full justify-center text-black">
-            <input
-              type="text"
-              className="rounded w-10/12 border-gray-300 border p-2 mr-2 focus:outline-none focus:border-teal-500"
-              placeholder="메시지를 입력하세요..."
-              value={messages}
-              onChange={(e) => setMessages(e.target.value)}
-            />
-            <button
-              onClick={sendMessage}
-              className="bg-teal-500 text-white px-10 items-center rounded focus:outline-none flex"
-              style={{ flexDirection: "row" }}
-            >
-              <span className="w-8 py-3">전송</span>
-            </button>
-          </div>
+          <MessageList messages={video.messages} />
+          <MessageInput
+            messages={messages}
+            setMessages={setMessages}
+            sendMessage={sendMessage}
+          />
         </div>
         <div
           className={`border w-1/4 p-10 ml-12 flex justify-center flex-col ${
