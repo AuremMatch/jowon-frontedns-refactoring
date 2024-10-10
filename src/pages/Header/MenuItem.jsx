@@ -6,28 +6,28 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
   const path = `/${name.toLowerCase()}`;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // 로컬 스토리지에서 사용자 정보를 확인하여 로그인 상태 설정
+  // 로컬 스토리지에서 토큰 정보를 확인하여 로그인 상태 설정
   useEffect(() => {
     if (name.toLowerCase() === "login") {
-      const userInfo = localStorage.getItem("userInfo");
-      if (userInfo) {
-        setIsAuthenticated(true);
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        setIsAuthenticated(true); // 토큰이 있으면 로그인 상태로 설정
       }
     }
   }, [name]);
 
   // 로그아웃 처리
   const handleLogout = () => {
-    localStorage.removeItem("userInfo"); // 로컬 스토리지에서 사용자 정보 삭제
+    localStorage.removeItem("accessToken"); // 로컬 스토리지에서 토큰 삭제
     setIsAuthenticated(false); // 상태 업데이트
-    window.location.reload(); // 페이지 새로고침 (원하는 방식으로 페이지 갱신)
+    window.location.reload(); // 페이지 새로고침
   };
 
-  // Determine if the current path is "/likes"
+  // 현재 경로가 "/likes" 또는 "/contests" 인지 확인
   const isLikesPath =
     location.pathname === "/likes" || location.pathname === "/contests";
 
-  // Determine the final text color
+  // 최종 텍스트 색상 결정
   const textColor = isLikesPath
     ? "text-black"
     : color

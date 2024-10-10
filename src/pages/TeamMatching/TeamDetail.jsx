@@ -71,7 +71,7 @@ const TeamDetail = () => {
 
   const [codingScores, setCodingScores] = useState([]); // 코딩 점수를 저장할 상태
 
-  const [selectedLabel, setSelectedLabel] = useState(null); // 클릭된 label 상태
+  const [clickedLabel, setClickedLabel] = useState(""); // 클릭한 레이블 저장
 
   const navigate = useNavigate();
 
@@ -105,6 +105,7 @@ const TeamDetail = () => {
 
   const toggleThirdSection = () => {
     setIsThirdExpanded(!isThirdExpanded);
+    // setToogle((prev) => prev + 1);
   };
 
   const userToken = Cookies.get("csrftoken") || "";
@@ -533,15 +534,17 @@ const TeamDetail = () => {
         top: 100, // 상단 패딩
       },
     },
-    onClick: (event, elements, chart) => {
-      if (elements.length > 0) {
-        const clickedIndex = elements[0].index;
-        const clickedLabel = chart.data.labels[clickedIndex]; // 클릭한 레이블 가져오기
-        console.log(clickedLabel);
+    onClick: (event) => {
+      console.log("hello");
 
-        setClickedLabel(clickedLabel); // 상태에 저장
-        openModals();
-      }
+      openModals(); // 모달 열기();
+
+      // if (confirmAdd) {
+      //   console.log("Team member will be added.");
+      //   // addBestCandidate(minAverageLabel);
+      //   // 여기에 추가적인 로직을 넣을 수 있습니다.
+      //   addBestCandidate();
+      // }
     },
   };
 
@@ -739,13 +742,14 @@ const TeamDetail = () => {
                 options={options}
                 getElementAtEvent={handleChartClick}
               />
-              {selectedLabel && <div>Clicked on: {selectedLabel}</div>}
+              {clickedLabel && <div>Clicked on: {clickedLabel}</div>}
             </div>
           </div>
           <RadarModal
             isOpens={isModalOpens}
             onRequestClose={closeModal}
             onConfirm={handleConfirm}
+            label={clickedLabel}
           />
           <MessageModal
             isOpen={isMessageModalOpen}
