@@ -71,7 +71,7 @@ const TeamDetail = () => {
 
   const [codingScores, setCodingScores] = useState([]); // 코딩 점수를 저장할 상태
 
-  const [clickedLabel, setClickedLabel] = useState(""); // 클릭한 레이블 저장
+  const [clickedLabel, setClickedLabel] = useState(null); // 클릭한 레이블 저장
 
   const navigate = useNavigate();
 
@@ -246,91 +246,6 @@ const TeamDetail = () => {
       ).toFixed(2) * 10
     );
   };
-
-  // // 레이더 차트 데이터를 percentages 상태에 기반하여 설정
-  // const data = {
-  //   labels: ["프론트", "백엔드", "디자인", "ppt", "배포"],
-  //   datasets: [
-  //     {
-  //       label: "팀원 1 데이터",
-  //       data: [
-  //         percentages[0] ? percentages[0].result : 0,
-  //         percentages[0] ? percentages[0].performance : 0,
-  //         percentages[0] ? percentages[0].experience : 0,
-  //         percentages[0] ? percentages[0].trust : 0,
-  //         percentages[0] ? percentages[0].creativity : 0,
-  //       ],
-  //       fill: true,
-  //       backgroundColor: "rgba(255, 99, 132, 0.2)",
-  //       borderColor: "rgba(255, 99, 132, 1)",
-  //       pointBackgroundColor: "rgba(255, 99, 132, 1)",
-  //       pointBorderColor: "#fff",
-  //       pointHoverBackgroundColor: "#fff",
-  //       pointHoverBorderColor: "rgba(255, 99, 132, 1)",
-  //     },
-  //     {
-  //       label: "팀원 2 데이터",
-  //       data: [
-  //         percentages[1] ? percentages[1].result : 0,
-  //         percentages[1] ? percentages[1].performance : 0,
-  //         percentages[1] ? percentages[1].experience : 0,
-  //         percentages[1] ? percentages[1].trust : 0,
-  //         percentages[1] ? percentages[1].creativity : 0,
-  //       ],
-  //       fill: true,
-  //       backgroundColor: "rgba(54, 162, 235, 0.2)",
-  //       borderColor: "rgba(54, 162, 235, 1)",
-  //       pointBackgroundColor: "rgba(54, 162, 235, 1)",
-  //       pointBorderColor: "#fff",
-  //       pointHoverBackgroundColor: "#fff",
-  //       pointHoverBorderColor: "rgba(54, 162, 235, 1)",
-  //     },
-  //     {
-  //       label: "팀원 3 데이터",
-  //       data: [
-  //         percentages[2] ? percentages[2].result : 0,
-  //         percentages[2] ? percentages[2].performance : 0,
-  //         percentages[2] ? percentages[2].experience : 0,
-  //         percentages[2] ? percentages[2].trust : 0,
-  //         percentages[2] ? percentages[2].creativity : 0,
-  //       ],
-  //       fill: true,
-  //       backgroundColor: "rgba(75, 192, 192, 0.2)",
-  //       borderColor: "rgba(75, 192, 192, 1)",
-  //       pointBackgroundColor: "rgba(75, 192, 192, 1)",
-  //       pointBorderColor: "#fff",
-  //       pointHoverBackgroundColor: "#fff",
-  //       pointHoverBorderColor: "rgba(75, 192, 192, 1)",
-  //     },
-  //   ],
-  // };
-
-  // const options = {
-  //   scales: {
-  //     r: {
-  //       angleLines: {
-  //         display: true,
-  //       },
-  //       grid: {
-  //         color: "#fff", // 레이더 그리드의 색상을 흰색으로 설정
-  //       },
-  //       pointLabels: {
-  //         display: true,
-  //         font: {
-  //           size: 20, // 라벨 글자 크기를 24px로 설정합니다.
-  //         },
-  //       },
-  //       ticks: {
-  //         beginAtZero: true,
-  //       },
-  //     },
-  //   },
-  //   layout: {
-  //     padding: {
-  //       top: 100, // 상단 패딩을 50px로 설정하여 그래프를 아래로 내립니다.
-  //     },
-  //   },
-  // };
 
   const addBestCandidate = async (minAverageLabel) => {
     try {
@@ -534,10 +449,23 @@ const TeamDetail = () => {
         top: 100, // 상단 패딩
       },
     },
-    onClick: (event) => {
-      console.log("hello");
+    onClick: (event, elements, chart) => {
+      if (elements.length > 0) {
+        // 클릭된 요소가 있는 경우
+        console.log(elements);
 
-      openModals(); // 모달 열기();
+        const elementIndex = elements[0].index; // 클릭된 요소의 인덱스
+        console.log(elementIndex);
+
+        const label = chart.data.labels[elementIndex]; // 해당 요소의 라벨
+        console.log("Clicked label:", label);
+        setClickedLabel(label);
+        // 모달 열기
+        openModals();
+
+        // 추가적인 로직을 여기에 추가할 수 있습니다
+        // 예: 라벨을 이용하여 특정 작업 수행
+      }
 
       // if (confirmAdd) {
       //   console.log("Team member will be added.");
@@ -742,7 +670,6 @@ const TeamDetail = () => {
                 options={options}
                 getElementAtEvent={handleChartClick}
               />
-              {clickedLabel && <div>Clicked on: {clickedLabel}</div>}
             </div>
           </div>
           <RadarModal

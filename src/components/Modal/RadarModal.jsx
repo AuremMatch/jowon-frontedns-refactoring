@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 
-const RadarModal = ({ isOpens, onRequestClose, onConfirm }) => {
+const RadarModal = ({ isOpens, onRequestClose, onConfirm, label }) => {
   return (
     <Modal
       isOpen={isOpens}
@@ -23,7 +23,7 @@ const RadarModal = ({ isOpens, onRequestClose, onConfirm }) => {
       }}
     >
       <p className="text-black">
-        <p className="font-bold text-2xl">배포</p> 부분에서 가장 높은 점수를
+        <p className="font-bold text-2xl">{label}</p> 부분에서 가장 높은 점수를
         가진 지원자를 팀에 추가하시겠습니까?
       </p>
       <div

@@ -8,25 +8,17 @@ import { useNavigate } from "react-router-dom";
 export default function Home({ scrollToSection }) {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   useEffect(() => {
-    // URL에서 토큰 추출
-    const queryParams = new URLSearchParams(window.location.search);
-    const token = queryParams.get("token");
-    console.log(token);
-
+    const token = localStorage.getItem("accessToken");
     if (token) {
-      // 토큰을 로컬 스토리지에 저장
-      console.log("Received token:", token); // 콘솔로 토큰 확인
-      localStorage.setItem("accessToken", token); // 로컬 스토리지에 저장
+      console.log("Token exists in Home, setting isAuthenticated to true");
       setIsAuthenticated(true); // 인증 상태 업데이트
-      navigate("/"); // 즉시 홈으로 이동
     } else {
-      // 토큰이 없으면 에러 처리 또는 로그인 페이지로 리디렉션
-      console.log("토큰에러");
-
-      navigate("/login");
+      console.log("No token found in Home");
+      setIsAuthenticated(false); // 인증 상태가 없으면 로그인 페이지로 리디렉션
     }
-  }, [navigate]);
+  }, []);
   return (
     <>
       <div className="w-full h-screen overflow-hidden ">
