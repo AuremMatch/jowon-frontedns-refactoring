@@ -247,12 +247,16 @@ const TeamDetail = () => {
     );
   };
 
-  const addBestCandidate = async (minAverageLabel) => {
+  const addBestCandidate = async (clickedLabel) => {
+    console.log(clickedLabel);
+
     try {
+      // 서버에서 데이터를 가져오기
       const response = await axiosInstance.get(
         `http://127.0.0.1:8000/conversations/${id}`
       );
       const videoData = response.data;
+      console.log("Video Data:", videoData); // 추가된 로그
 
       if (
         videoData.matching_type === "random" ||
@@ -263,82 +267,84 @@ const TeamDetail = () => {
           (participant) => participant.coding
         );
 
-        setCodingScores(codingScores);
+        // 현재 팀원들의 ID 목록
+        const currentParticipantIds = participants.map((p) => p.id);
 
-        console.log("Coding Scores:", codingScores);
+        console.log("Participants:", participants); // 추가된 로그
+        console.log("Coding Scores:", codingScores); // 추가된 로그
 
-        // 각 항목의 평균 계산
-        const averageScores = {
-          frontend_score: (
-            codingScores.reduce((sum, score) => sum + score.frontend_score, 0) /
-            codingScores.length
-          ).toFixed(2),
-          backend_score: (
-            codingScores.reduce((sum, score) => sum + score.backend_score, 0) /
-            codingScores.length
-          ).toFixed(2),
-          design_score: (
-            codingScores.reduce((sum, score) => sum + score.design_score, 0) /
-            codingScores.length
-          ).toFixed(2),
-          ppt_score: (
-            codingScores.reduce((sum, score) => sum + score.ppt_score, 0) /
-            codingScores.length
-          ).toFixed(2),
-          deploy_score: (
-            codingScores.reduce((sum, score) => sum + score.deploy_score, 0) /
-            codingScores.length
-          ).toFixed(2),
-        };
-
-        console.log("Average Scores:", averageScores);
-
-        // 가장 작은 항목 찾기
-        let minLabel = null;
-        let minValue = Infinity;
-
-        for (const [label, value] of Object.entries(averageScores)) {
-          if (value < minValue) {
-            minValue = value;
-            minLabel = label;
-          }
-        }
-
-        console.log(
-          `"Label with the lowest average score": ${minLabel} (${minValue})`
-        );
-
-        // 해당 라벨에 대해 가장 높은 점수를 가진 지원자 조회
         try {
+          // 지원자 목록 가져오기
           const applicantsResponse = await axiosInstance.get(
             "http://127.0.0.1:8000/contests/47/applicants/"
           );
-
           const applicants = applicantsResponse.data;
+          console.log("Applicants:", applicants); // 추가된 로그
 
-          // 현재 팀원들의 ID 목록
-          const currentParticipantIds = participants.map((p) => p.id);
+          // labels와 coding 키를 매핑하는 객체
+          const labelToCodingKeyMap = {
+            프론트: "frontend_score",
+            백엔드: "backend_score",
+            디자인: "design_score",
+            "ppt/리더쉽": "ppt_score",
+            배포: "deploy_score",
+          };
 
-          // 해당 라벨에서 가장 높은 점수를 가진 지원자 찾기 (현재 팀원 제외)
+          // clickedLabel 값을 coding 키로 변환
+          const codingKey = labelToCodingKeyMap[clickedLabel];
+
+          if (!codingKey) {
+            console.log(`No matching coding key for label: ${clickedLabel}`);
+            return; // 매핑이 안 되면 함수 종료
+          }
+
+          // 이후 코드에서 codingKey를 사용
           let bestCandidate = null;
           let maxScore = -Infinity;
 
           for (const applicant of applicants) {
-            if (
-              applicant.coding &&
-              !currentParticipantIds.includes(applicant.id) && // 현재 팀원이 아닌 경우
-              applicant.coding[minLabel] > maxScore
-            ) {
-              maxScore = applicant.coding[minLabel];
+            console.log("Checking applicant:", applicant);
+
+            if (!applicant.coding) {
+              console.log(
+                "Skipping applicant because coding is null:",
+                applicant
+              );
+              continue;
+            }
+
+            if (!applicant.coding[codingKey]) {
+              console.log(
+                `Skipping applicant because ${codingKey} is not found:`,
+                applicant
+              );
+              continue;
+            }
+
+            if (currentParticipantIds.includes(applicant.id)) {
+              console.log(
+                "Skipping applicant because they are already a participant:",
+                applicant
+              );
+              continue;
+            }
+
+            if (applicant.coding[codingKey] > maxScore) {
+              maxScore = applicant.coding[codingKey];
               bestCandidate = applicant;
+              console.log("New best candidate found:", bestCandidate);
             }
           }
 
+          // 최종 확인
           if (bestCandidate) {
-            console.log(
-              `Best candidate for ${minAverageLabel}:`,
-              bestCandidate
-            );
+            console.log("Best candidate:", bestCandidate);
+          } else {
+            console.log("No suitable candidate found");
+          }
+
+          if (bestCandidate) {
+            console.log(`Best candidate for ${clickedLabel}:`, bestCandidate);
 
             // 해당 지원자를 conversation participants에 추가
             const updatedParticipants = [...participants, bestCandidate];
@@ -350,13 +356,11 @@ const TeamDetail = () => {
                 participants: updatedParticipants.map((p) => p.id),
               }
             );
-
             // video 상태의 participants를 업데이트
             setVideo((prevVideo) => ({
               ...prevVideo,
               participants: updatedParticipants,
             }));
-
             console.log("Participants updated successfully");
           } else {
             console.log("No suitable candidate found");
@@ -364,6 +368,8 @@ const TeamDetail = () => {
         } catch (error) {
           console.error("Error fetching applicants:", error);
         }
+      } else {
+        console.log("Matching type is not random or same.");
       }
     } catch (error) {
       console.error("Error fetching video:", error);
@@ -393,7 +399,7 @@ const TeamDetail = () => {
     closeModal(); // 모달 닫기
   };
   const handleMessageSubmit = () => {
-    addBestCandidate(); // MessageModal에서 메시지 제출 시 addBestCandidate 호출
+    addBestCandidate(clickedLabel); // MessageModal에서 메시지 제출 시 addBestCandidate 호출
     closeMessageModal();
   };
 

@@ -18,17 +18,17 @@ export default function MessageModal({ isOpen, onClose, onSubmit }) {
   const handleSubmit = async () => {
     try {
       // 메시지를 포함하여 axios로 POST 요청 보내기
+
       await axiosInstance.post("http://127.0.0.1:8000/notifications/", {
         receiver: 1, // 사용자 ID
         message: message,
         image:
           "https://firebasestorage.googleapis.com/v0/b/wpoint-1d1be.appspot.com/o/KakaoTalk_Photo_2024-04-01-14-36-50.jpeg?alt=media&token=5b2fac95-0dbd-40c1-a030-a58336997c24 ",
-        conversation_id: 419, // 새로 생성된 conversation ID 추가v
+        conversation_id: 490, // 새로 생성된 conversation ID 추가v
       });
-
+      console.log("메세지 보냄");
       // 요청이 성공하면 onSubmit 콜백 함수 호출
       onSubmit();
-
       // 쿼리 다시 불러오기 등의 작업
     } catch (error) {
       console.error("Error proposing:", error);
