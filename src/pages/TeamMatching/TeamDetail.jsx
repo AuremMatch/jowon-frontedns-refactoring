@@ -73,6 +73,8 @@ const TeamDetail = () => {
 
   const [clickedLabel, setClickedLabel] = useState(null); // 클릭한 레이블 저장
 
+  const [pendingParticipants, setPendingParticipants] = useState([]);
+
   const navigate = useNavigate();
 
   const chartRef = useRef(null); // 차트 인스턴스 참조
@@ -139,6 +141,22 @@ const TeamDetail = () => {
       }
     }
   };
+
+  useEffect(() => {
+    // 대기 중인 팀원 불러오기
+    const fetchPendingParticipants = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "http://127.0.0.1:8000/conversations/490/add_pending_participant/"
+        );
+        setPendingParticipants(response.data);
+      } catch (error) {
+        console.error("대기 중인 팀원을 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchPendingParticipants();
+  }, []);
 
   useEffect(() => {
     const fetchVideo = async () => {
@@ -605,7 +623,12 @@ const TeamDetail = () => {
             )}
           </button>
         </div>
-        {isExpanded && <MiniProfileList participants={video.participants} />}
+        {isExpanded && (
+          <MiniProfileList
+            participants={video.participants}
+            pending={pendingParticipants}
+          />
+        )}
         <div className="border flex-grow ml-10 p-10 flex flex-col">
           <div className="border mb-6 flex items-center justify-center rounded p-2">
             {video.teamName}
