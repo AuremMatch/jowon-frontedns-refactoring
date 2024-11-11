@@ -147,14 +147,13 @@ const TeamDetail = () => {
     const fetchPendingParticipants = async () => {
       try {
         const response = await axiosInstance.get(
-          "http://127.0.0.1:8000/conversations/490/add_pending_participant/"
+          "http://127.0.0.1:8000/conversations/490"
         );
         setPendingParticipants(response.data);
       } catch (error) {
         console.error("대기 중인 팀원을 불러오는 중 오류 발생:", error);
       }
     };
-
     fetchPendingParticipants();
   }, []);
 
@@ -626,7 +625,7 @@ const TeamDetail = () => {
         {isExpanded && (
           <MiniProfileList
             participants={video.participants}
-            pending={pendingParticipants}
+            pending={video.pendingParticipants}
           />
         )}
         <div className="border flex-grow ml-10 p-10 flex flex-col">

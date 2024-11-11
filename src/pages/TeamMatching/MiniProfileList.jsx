@@ -20,11 +20,14 @@ const MiniProfileList = ({ participants, pending }) => (
     </h2>
     <div className="grid grid-cols-2 justify-between mt-4 items-center border-b p-4">
       {pending.map((participant, index) => (
-        <MiniProfileCard
-          key={participant.id}
-          participant={participant}
-          isFirst={index === 0}
-        />
+        <div className={`flex flex-col items-center justify-center`}>
+          <img
+            alt={participant.username}
+            src={participant.avatar}
+            className={`w-16 h-16 rounded-full bg-gray-300 blur-sm`}
+          />
+          <span className="text-white mt-2">{participant.username}</span>
+        </div>
       ))}
     </div>
   </div>
