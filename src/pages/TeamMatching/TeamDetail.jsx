@@ -93,7 +93,7 @@ const TeamDetail = () => {
 
   // Use custom hook
   const { video, setVideo, pendingParticipants, codingScores, id } =
-    useFetchVideo(axiosInstance);
+    useFetchVideo();
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");

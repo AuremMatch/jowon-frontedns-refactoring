@@ -99,19 +99,23 @@ export function useToggleLike(videoId, videoData) {
         const conversationData = {
           teamName: videoData.제목,
           selected_choices: selectedChoices,
-          contest_id: videoId,
+          contest_id: videoData.id,
           image: videoData.사진,
           matching_type: "same",
           participants: selectedParticipants.map(
             (participant) => participant.id
           ),
         };
+        console.log(conversationData);
 
         const conversationResponse = await axiosInstance.post(
           "http://127.0.0.1:8000/conversations/",
           conversationData
         );
         const conversationId = conversationResponse.data.id;
+        console.log(conversationId);
+
+        console.log("New conversation created");
 
         const notiData = {
           receiver: 1,
@@ -138,12 +142,14 @@ export function useToggleLike(videoId, videoData) {
           matching_type: matchingType,
           participants: applicants.map((applicant) => applicant.user_id),
         };
+        console.log(conversationData);
 
         const conversationResponse = await axiosInstance.post(
           "http://127.0.0.1:8000/conversations/",
           conversationData
         );
         const conversationId = conversationResponse.data.id;
+        console.log(conversationId);
 
         const notiData = {
           receiver: 1,

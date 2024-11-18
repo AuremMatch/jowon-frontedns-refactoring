@@ -25,7 +25,7 @@ export default function MessageModal({
   const userToken = Cookies.get("csrftoken") || "";
 
   const { video, setVideo, pendingParticipants, codingScores, id } =
-    useFetchVideo(axiosInstance);
+    useFetchVideo();
 
   const handleSubmit = async () => {
     try {

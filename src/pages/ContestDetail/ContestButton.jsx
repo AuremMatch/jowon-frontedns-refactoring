@@ -28,8 +28,8 @@ export default function ContestButtons({
   const handleApplyClick = () => {
     // apply가 false일 때만 openModal을 실행하고 상태를 변경
     if (!apply) {
-      setApply(true); // 지원 완료 상태로 변경
       openModal(); // 모달 오픈
+      setApply(true); // 지원 완료 상태로 변경
     }
   };
 

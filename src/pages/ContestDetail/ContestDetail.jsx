@@ -9,6 +9,8 @@ import { useToggleLike } from "../../hooks/useToggleLike";
 
 export default function ContestDetail() {
   const { id } = useParams();
+  console.log(id);
+
   const { navigate } = useNavigate();
 
   const navToApply = () => {

@@ -7,9 +7,9 @@ const axiosInstance = () => {
 
   return axios.create({
     withCredentials: true,
-    // headers: {
-    //   "X-CSRFToken": userToken, // CSRF 토큰을 헤더에 추가
-    // },
+    headers: {
+      "X-CSRFToken": userToken, // CSRF 토큰을 헤더에 추가
+    },
   });
 };
 
