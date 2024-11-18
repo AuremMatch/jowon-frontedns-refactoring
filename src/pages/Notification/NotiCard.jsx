@@ -3,6 +3,8 @@ import { Avatar, Button } from "@chakra-ui/react";
 
 import NotiAvatar from "./NotiAvatar";
 import { useLocation } from "react-router-dom";
+import useFetchVideo from "../../hooks/useFetchVideo"; // Import custom hook
+import axiosInstance from "../../utils/axiosInstance"; // axiosInstance를 utils 폴더에서 import
 
 export default function NotiCard({ video, onClick, isLoading }) {
   const location = useLocation();
@@ -16,10 +18,22 @@ export default function NotiCard({ video, onClick, isLoading }) {
     }
   }, [video.id]);
 
-  const handleAccept = () => {
-    // 수락 상태 업데이트 및 로컬 스토리지에 저장
-    setIsAccepted(true);
-    localStorage.setItem(`isAccepted-${video.id}`, true);
+  const handleAccept = async () => {
+    try {
+      // 수락 상태 업데이트
+      setIsAccepted(true);
+      localStorage.setItem(`isAccepted-${video.id}`, true);
+
+      // 서버로 수락 요청 보내기
+      const response = await axiosInstance.post(
+        `http://127.0.0.1:8000/conversations/${video.id}/accept_pending_participant/`,
+        { user_id: video.user_id } // 필요한 user_id를 전송
+      );
+
+      console.log("Response from server:", response.data);
+    } catch (error) {
+      console.error("Error accepting participant:", error);
+    }
   };
 
   return (

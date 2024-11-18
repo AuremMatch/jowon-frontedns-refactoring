@@ -10,6 +10,9 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import MiniProfileCard from "./MiniProfileCard";
+import axiosInstance from "../../utils/axiosInstance";
+import useFetchVideo from "../../hooks/useFetchVideo"; // Import custom hook
+
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -66,38 +69,16 @@ const TeamDetail = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [participants, setParticipants] = useState([]); // 참가자 상태 관리
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
-
   const [isModalOpenRadar, setIsModalOpenRadar] = useState(false);
-
-  const [codingScores, setCodingScores] = useState([]); // 코딩 점수를 저장할 상태
-
   const [clickedLabel, setClickedLabel] = useState(null); // 클릭한 레이블 저장
 
-  const [pendingParticipants, setPendingParticipants] = useState([]);
+  const [bestCandidate, setBestCandidate] = useState(null);
 
   const navigate = useNavigate();
-
   const chartRef = useRef(null); // 차트 인스턴스 참조
 
   const navigateToNoti = () => {
     navigate("/pictures/messages");
-  };
-
-  const customDotStyles = {
-    backgroundColor: "black",
-    width: "10px",
-    height: "10px",
-    borderRadius: "50%",
-  };
-
-  const settings = {
-    dots: 3,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
   };
 
   const toggleSection = () => {
@@ -110,19 +91,9 @@ const TeamDetail = () => {
     // setToogle((prev) => prev + 1);
   };
 
-  const userToken = Cookies.get("csrftoken") || "";
-
-  const axiosInstance = axios.create({
-    withCredentials: true,
-    headers: {
-      "X-CSRFToken": userToken,
-    },
-  });
-
-  const location = useLocation();
-  const pathname = location.pathname;
-  const id = pathname.substring(pathname.lastIndexOf("/") + 1);
-  const [video, setVideo] = useState(null);
+  // Use custom hook
+  const { video, setVideo, pendingParticipants, codingScores, id } =
+    useFetchVideo(axiosInstance);
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("정말로 삭제하시겠습니까?");
@@ -133,7 +104,7 @@ const TeamDetail = () => {
         );
         if (response.status === 204) {
           alert("팀이 성공적으로 삭제되었습니다.");
-          navigateToNoti();
+          navigate("/pictures/messages");
         }
       } catch (error) {
         console.error("팀 삭제 중 오류 발생:", error);
@@ -141,129 +112,6 @@ const TeamDetail = () => {
       }
     }
   };
-
-  useEffect(() => {
-    // 대기 중인 팀원 불러오기
-    const fetchPendingParticipants = async () => {
-      try {
-        const response = await axiosInstance.get(
-          "http://127.0.0.1:8000/conversations/490"
-        );
-        setPendingParticipants(response.data);
-      } catch (error) {
-        console.error("대기 중인 팀원을 불러오는 중 오류 발생:", error);
-      }
-    };
-    fetchPendingParticipants();
-  }, []);
-
-  useEffect(() => {
-    const fetchVideo = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `http://127.0.0.1:8000/conversations/${id}`
-        ); // id 값을 이용하여 서버로 요청
-        setVideo(response.data);
-        if (
-          response.data.matching_type === "random" ||
-          response.data.matching_type === "same"
-        ) {
-          const participants = response.data.participants;
-
-          const codingScores = participants.map(
-            (participant) => participant.coding
-          );
-
-          setCodingScores(codingScores);
-
-          console.log("Coding Scores:", codingScores);
-        }
-      } catch (error) {
-        console.error("Error fetching video:", error);
-      }
-    };
-
-    fetchVideo();
-  }, [id]);
-
-  const calculateAverages = (aiResponse) => {
-    const averages = aiResponse.map((response) => {
-      if (response.score) {
-        const performance = calculatePerformance(response.score);
-        const experience = calculateExperience(response.score);
-        const result = calculateResult(response.score);
-        const trust = response.score.trust || 0;
-        const creativity = response.score.creativity || 0;
-
-        console.log(`User: ${response.username}`);
-        console.log(`Performance: ${performance}`);
-        console.log(`Experience: ${experience}`);
-        console.log(`Result: ${result}`);
-        console.log(`Trust: ${trust}`);
-        console.log(`Creativity: ${creativity}`);
-
-        return {
-          performance,
-          experience,
-          result,
-          trust,
-          creativity,
-        };
-      } else {
-        console.log(`User: ${response.username}`);
-        console.log("No score available");
-
-        return {
-          performance: 0,
-          experience: 0,
-          result: 0,
-          trust: 0,
-          creativity: 0,
-        };
-      }
-    });
-
-    setPercentages(averages);
-  };
-
-  const calculatePerformance = (score) => {
-    return (
-      (
-        (score.grade * 0.2 +
-          score.github_commit_count * 0.2 +
-          score.baekjoon_score * 0.2 +
-          score.programmers_score * 0.2 +
-          score.certificate_count * 0.2) /
-        5
-      ).toFixed(2) * 10
-    );
-  };
-
-  const calculateExperience = (score) => {
-    return (
-      (
-        (score.depart * 0.25 +
-          score.courses_taken * 0.25 +
-          score.major_field * 0.25 +
-          score.bootcamp_experience * 0.25) /
-        4
-      ).toFixed(2) * 100
-    );
-  };
-
-  const calculateResult = (score) => {
-    return (
-      (
-        (score.in_school_award_cnt * 0.5 +
-          score.out_school_award_cnt * 0.5 +
-          score.coding_test_score * 0.5 +
-          score.certificate_score * 0.5 +
-          score.aptitude_test_score * 0.5) /
-        5
-      ).toFixed(2) * 10
-    );
-  };
-
   const addBestCandidate = async (clickedLabel) => {
     console.log(clickedLabel);
 
@@ -280,6 +128,10 @@ const TeamDetail = () => {
         videoData.matching_type === "same"
       ) {
         const participants = videoData.participants;
+        const pending = videoData.pendingParticipants;
+        console.log(videoData);
+        console.log(pending);
+
         const codingScores = participants.map(
           (participant) => participant.coding
         );
@@ -353,32 +205,44 @@ const TeamDetail = () => {
             }
           }
 
-          // 최종 확인
           if (bestCandidate) {
-            console.log("Best candidate:", bestCandidate);
-          } else {
-            console.log("No suitable candidate found");
-          }
+            console.log(
+              "Best Candidate to be added to pending:",
+              bestCandidate
+            );
 
-          if (bestCandidate) {
-            console.log(`Best candidate for ${clickedLabel}:`, bestCandidate);
+            // pendingParticipants가 배열인지 확인
+            if (!Array.isArray(pendingParticipants)) {
+              console.error(
+                "pendingParticipants is not an array:",
+                pendingParticipants
+              );
+              return;
+            }
 
-            // 해당 지원자를 conversation participants에 추가
-            const updatedParticipants = [...participants, bestCandidate];
+            // 해당 지원자를 pendingParticipants에 추가
+            const updatedParticipants = [...pendingParticipants, bestCandidate];
 
             // 서버에 업데이트된 participants 전송
-            await axiosInstance.put(
-              `http://127.0.0.1:8000/conversations/${id}`,
-              {
-                participants: updatedParticipants.map((p) => p.id),
-              }
-            );
-            // video 상태의 participants를 업데이트
-            setVideo((prevVideo) => ({
-              ...prevVideo,
-              participants: updatedParticipants,
-            }));
-            console.log("Participants updated successfully");
+            try {
+              await axiosInstance.put(
+                `http://127.0.0.1:8000/conversations/${id}`,
+                {
+                  pendingParticipants: updatedParticipants.map((p) => p.id),
+                }
+              );
+              // video 상태의 participants를 업데이트
+              setVideo((prevVideo) => ({
+                ...prevVideo,
+                pendingParticipants: updatedParticipants,
+              }));
+              console.log("Participants updated successfully");
+            } catch (putError) {
+              console.error(
+                "Error updating participants on the server:",
+                putError
+              );
+            }
           } else {
             console.log("No suitable candidate found");
           }
@@ -558,44 +422,6 @@ const TeamDetail = () => {
       // 오류 처리 로직 추가 가능
     }
   };
-  // const graphUrl = `data:image/png;base64,${video.graph[2]}`;
-
-  // const analyzePotential = async () => {
-  //   const conversationId = id; // 해당 conversation ID를 적절히 설정
-  //   try {
-  //     const response = await axios.delete(
-  //       `http://127.0.0.1:8000/conversations/${id}`
-  //     );
-  //     console.log("Conversation deleted successfully:", response.data);
-  //     // 삭제 후 추가적인 로직을 여기에 추가 (예: 페이지 리디렉션)
-  //     alert("삭제되었습니다");
-  //   } catch (error) {
-  //     console.error("Failed to delete conversation:", error);
-  //   }
-  // };
-
-  const graphImages = [
-    "/imgs/png1.png",
-    "/imgs/png2.png",
-    "/imgs/png3.png",
-    "/imgs/png4.png",
-  ];
-
-  // const predictions = video.participants.map((participant, index) => {
-  //   const prediction = video.ai_response[index][randomContest];
-  //   return prediction;
-  // });
-
-  // const averagePrediction = (
-  //   predictions.reduce((acc, val) => acc + val, 0) / predictions.length
-  // ).toFixed(2);
-
-  const participantIds = video.participants.map(
-    (participant) => participant.id
-  );
-
-  const isSameMatchingType = video.matching_type === "same";
-  const isTopMatchingType = video.matching_type === "top_two";
 
   return (
     <section id="home" className="">
@@ -639,6 +465,7 @@ const TeamDetail = () => {
             sendMessage={sendMessage}
           />
         </div>
+
         <div
           className={`border w-1/4 p-10 ml-12 flex justify-center flex-col ${
             isThirdExpanded ? "" : "hidden"
@@ -710,6 +537,7 @@ const TeamDetail = () => {
             isOpen={isMessageModalOpen}
             onClose={closeMessageModal}
             onSubmit={handleMessageSubmit}
+            bestCandidate={bestCandidate}
           />
         </div>
       }
