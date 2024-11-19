@@ -16,6 +16,8 @@ import Profile from "./pages/Profile/Profile";
 import Notification from "./pages/Notification/Notification";
 import Login from "./pages/Login/Login";
 import VerifyEmail from "./pages/Login/VerifyEmail";
+import PointShop from "./pages/pointShop/PointShop";
+import Ranking from "./pages/pointShop/Ranking";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,8 @@ const router = createBrowserRouter([
       { path: "noti", element: <Notification /> },
       { path: "login", element: <Login /> },
       { path: "verify-email", element: <VerifyEmail /> },
+      { path: "pointshop", element: <PointShop /> },
+      { path: "ranking", element: <Ranking /> },
     ],
   },
 ]);

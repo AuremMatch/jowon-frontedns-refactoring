@@ -20,7 +20,10 @@ const MiniProfileList = ({ participants, pending }) => (
     </h2>
     <div className="grid grid-cols-2 justify-between mt-4 items-center border-b p-4">
       {pending.map((participant, index) => (
-        <div className={`flex flex-col items-center justify-center`}>
+        <div
+          key={participant.id || index}
+          className={`flex flex-col items-center justify-center`}
+        >
           <img
             alt={participant.username}
             src={participant.avatar}

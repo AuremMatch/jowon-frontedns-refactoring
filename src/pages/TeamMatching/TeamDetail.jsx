@@ -12,7 +12,6 @@ import Cookies from "js-cookie";
 import MiniProfileCard from "./MiniProfileCard";
 import axiosInstance from "../../utils/axiosInstance";
 import useFetchVideo from "../../hooks/useFetchVideo"; // Import custom hook
-
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -35,6 +34,7 @@ import MiniProfileList from "./MiniProfileList";
 import MessageSection from "./MessageSection";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
+import PortfolioModal from "../../components/Modal/PortfolioModal";
 
 const NextArrow = (props) => (
   <div {...props}>
@@ -73,6 +73,58 @@ const TeamDetail = () => {
   const [clickedLabel, setClickedLabel] = useState(null); // 클릭한 레이블 저장
 
   const [bestCandidate, setBestCandidate] = useState(null);
+
+  const [isPotoModalOpen, setIsPotoModalOpen] = useState(false);
+
+  const [portfolios, setPortfolios] = useState([]);
+  const [loadings, setLoadings] = useState(true);
+  const [errors, setErrors] = useState(null);
+
+  const settings = {
+    dots: false, // 점 없애기
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />, // 커스텀 다음 화살표
+    prevArrow: <PrevArrow />, // 커스텀 이전 화살표
+  };
+
+  const handlePotoModalOpen = () => {
+    setIsPotoModalOpen(true);
+  };
+
+  const handlePotoModalClose = () => {
+    setIsPotoModalOpen(false);
+  };
+
+  useEffect(() => {
+    // 포트폴리오 데이터를 가져오는 함수
+    const fetchPortfolios = async () => {
+      try {
+        setLoading(true);
+        const response = await axiosInstance.get(
+          "http://127.0.0.1:8000/conversations/1/add_portfolio/"
+        );
+        console.log(response.data);
+
+        setPortfolios(response.data); // 포트폴리오 데이터 설정
+      } catch (err) {
+        console.error("포트폴리오 데이터를 가져오는 중 오류 발생:", err);
+        setErrors(err);
+      } finally {
+        setLoadings(false);
+      }
+    };
+
+    fetchPortfolios();
+  }, []);
+
+  const handlePotoSubmit = (formData) => {
+    // formData를 API에 전송하는 로직 추가
+    console.log("Form Data:", formData);
+    // API 요청 코드를 추가하세요
+  };
 
   const navigate = useNavigate();
   const chartRef = useRef(null); // 차트 인스턴스 참조
@@ -145,8 +197,9 @@ const TeamDetail = () => {
         try {
           // 지원자 목록 가져오기
           const applicantsResponse = await axiosInstance.get(
-            "http://127.0.0.1:8000/contests/47/applicants/"
+            `http://127.0.0.1:8000/contests/${videoData.contest_id}/applicants/`
           );
+          // 여기서 contest_id값 가져오기
           const applicants = applicantsResponse.data;
           console.log("Applicants:", applicants); // 추가된 로그
 
@@ -212,16 +265,14 @@ const TeamDetail = () => {
             );
 
             // pendingParticipants가 배열인지 확인
-            if (!Array.isArray(pendingParticipants)) {
-              console.error(
-                "pendingParticipants is not an array:",
-                pendingParticipants
-              );
+            if (!Array.isArray(pending)) {
+              console.error("pendingParticipants is not an array:", pending);
               return;
             }
+            console.log(pending);
 
             // 해당 지원자를 pendingParticipants에 추가
-            const updatedParticipants = [...pendingParticipants, bestCandidate];
+            const updatedParticipants = [...pending, bestCandidate];
 
             // 서버에 업데이트된 participants 전송
             try {
@@ -231,12 +282,15 @@ const TeamDetail = () => {
                   pendingParticipants: updatedParticipants.map((p) => p.id),
                 }
               );
+              console.log("서버 응답 데이터:", response.data); // 응답 데이터를 로그로 출력
+
               // video 상태의 participants를 업데이트
               setVideo((prevVideo) => ({
                 ...prevVideo,
                 pendingParticipants: updatedParticipants,
               }));
               console.log("Participants updated successfully");
+              console.log();
             } catch (putError) {
               console.error(
                 "Error updating participants on the server:",
@@ -490,7 +544,7 @@ const TeamDetail = () => {
 
           <button
             className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer "
-            onClick={() => document.getElementById("fileInput").click()}
+            onClick={handlePotoModalOpen}
           >
             <FaStar className="mr-4" size={24} /> <>성과올리기</>
           </button>
@@ -516,31 +570,91 @@ const TeamDetail = () => {
       </div>
       {/* 기타 컴포넌트 내용 생략 */}
       {
-        <div className="border p-10 container mx-auto min-h-80 mt-24 mb-40">
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "800px", height: "800px" }}>
-              <Radar
-                ref={chartRef} // chartRef를 Radar 차트에 연결
-                data={data}
-                options={options}
-                getElementAtEvent={handleChartClick}
-              />
+        <div className="container mx-auto mt-24 mb-40">
+          <Slider {...settings}>
+            {/* Radar Chart Page */}
+            <div className="border p-10 min-h-80">
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div style={{ width: "800px", height: "800px" }}>
+                  <Radar
+                    ref={chartRef} // chartRef 연결
+                    data={data}
+                    options={options}
+                    getElementAtEvent={handleChartClick}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <RadarModal
-            isOpens={isModalOpens}
-            onRequestClose={closeModal}
-            onConfirm={handleConfirm}
-            label={clickedLabel}
-          />
-          <MessageModal
-            isOpen={isMessageModalOpen}
-            onClose={closeMessageModal}
-            onSubmit={handleMessageSubmit}
-            bestCandidate={bestCandidate}
-          />
+
+            {/* Portfolio Page */}
+            <div className="border p-10 min-h-80">
+              <h2
+                style={{
+                  textAlign: "center",
+                  fontSize: "24px",
+                  margin: "20px 0",
+                }}
+              >
+                포토폴리오
+              </h2>
+              {/* 포토폴리오 콘텐츠를 여기에 추가하세요 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {portfolios.length > 0 ? (
+                  portfolios.map((portfolio) => (
+                    <div
+                      key={portfolio.id}
+                      className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105"
+                    >
+                      <h3 className="text-xl font-semibold mb-2">
+                        {portfolio.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4">
+                        {portfolio.description}
+                      </p>
+                      {portfolio.image && (
+                        <img
+                          src={portfolio.image}
+                          alt={portfolio.title}
+                          className="w-full h-40 object-cover rounded-md mb-4"
+                        />
+                      )}
+                      {portfolio.link && (
+                        <a
+                          href={portfolio.link}
+                          className="text-blue-500 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          자세히 보기
+                        </a>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <p style={{ textAlign: "center" }}>포트폴리오가 없습니다.</p>
+                )}
+              </div>
+            </div>
+          </Slider>
         </div>
       }
+      <RadarModal
+        isOpens={isModalOpens}
+        onRequestClose={closeModal}
+        onConfirm={handleConfirm}
+        label={clickedLabel}
+      />
+      <MessageModal
+        isOpen={isMessageModalOpen}
+        onClose={closeMessageModal}
+        onSubmit={handleMessageSubmit}
+        bestCandidate={bestCandidate}
+      />
+      <PortfolioModal
+        isOpen={isPotoModalOpen}
+        onClose={handlePotoModalClose}
+        onSubmit={handlePotoSubmit}
+      />
 
       <TeamEvaluation
         participants={video.participants}
