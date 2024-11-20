@@ -273,6 +273,7 @@ const TeamDetail = () => {
 
             // 해당 지원자를 pendingParticipants에 추가
             const updatedParticipants = [...pending, bestCandidate];
+            console.log(updatedParticipants);
 
             // 서버에 업데이트된 participants 전송
             try {

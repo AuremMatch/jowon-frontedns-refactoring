@@ -33,7 +33,8 @@ export default function MessageModal({
       onSubmit();
       console.log(bestCandidate);
       await axiosInstance.post("http://127.0.0.1:8000/notifications/", {
-        receiver: bestCandidate.id, // 사용자 ID
+        // receiver: bestCandidate.id, // 사용자 ID
+        receiver: 1,
         message: message,
         image: Me.avatar,
         conversation_id: id, // 새로 생성된 conversation ID 추가v

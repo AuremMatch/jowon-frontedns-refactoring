@@ -26,8 +26,8 @@ export default function NotiCard({ video, onClick, isLoading }) {
 
       // 서버로 수락 요청 보내기
       const response = await axiosInstance.post(
-        `http://127.0.0.1:8000/conversations/${video.id}/accept_pending_participant/`,
-        { user_id: video.user_id } // 필요한 user_id를 전송
+        `http://127.0.0.1:8000/conversations/1/accept_pending_participant/`,
+        { user_id: 3 } // 필요한 user_id를 전송
       );
 
       console.log("Response from server:", response.data);

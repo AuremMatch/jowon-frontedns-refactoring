@@ -9,7 +9,7 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
   // 로컬 스토리지에서 토큰 정보를 확인하여 로그인 상태 설정
   useEffect(() => {
     if (name.toLowerCase() === "login") {
-      const accessToken = localStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("authToken");
       if (accessToken) {
         setIsAuthenticated(true); // 토큰이 있으면 로그인 상태로 설정
       }
