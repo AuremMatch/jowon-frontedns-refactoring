@@ -8,7 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-gray-900;
+  @apply bg-black;
   background-color: gray-900; /* 다크 그레이 배경 */
   color: #e0e0e0; /* 밝은 회색 텍스트 */
 }
@@ -33,6 +33,12 @@ code {
   font-family: "GowunDodum-Light";
   font-weight: normal;
   src: url("./fonts/MaruBuri-Light.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "write-pencil";
+  font-weight: normal;
+  src: url("./fonts/SejongGeulggot.otf") format("truetype");
 }
 
 @font-face {

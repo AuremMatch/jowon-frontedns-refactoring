@@ -5,6 +5,7 @@ import { ProfileInfo } from "./ProfileInfo";
 import { ProfileChart } from "./ProfileChart";
 import { ProfileModal } from "./ProfileModal";
 import { ProfileActions } from "./ProfileActions";
+import axiosInstance from "../../utils/axiosInstance";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -30,7 +31,33 @@ export default function Profile() {
   const [percentages, setPercentages] = useState({});
   const [currentChart, setCurrentChart] = useState("distribution");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [portfolios, setPortfolios] = useState([]);
+  const [loadings, setLoadings] = useState(true);
+  const [errors, setErrors] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // 포트폴리오 데이터를 가져오는 함수
+    const fetchPortfolios = async () => {
+      try {
+        setLoadings(true);
+        const response = await axiosInstance.get(
+          "http://127.0.0.1:8000/conversations/4/add_portfolio/"
+        );
+        console.log(response.data);
+
+        setPortfolios(response.data); // 포트폴리오 데이터 설정
+      } catch (err) {
+        console.error("포트폴리오 데이터를 가져오는 중 오류 발생:", err);
+        setErrors(err);
+      } finally {
+        setLoadings(false);
+      }
+    };
+
+    fetchPortfolios();
+  }, []);
 
   useEffect(() => {
     if (Object.keys(score).length > 0) {
@@ -182,44 +209,97 @@ export default function Profile() {
   };
 
   return (
-    <section className="flex flex-col md:flex-row p-4 justify-center mt-36">
+    <section className=" md:flex-row p-4 ">
+      <div className="relative w-full h-0" style={{ paddingBottom: "40%" }}>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <img
+            src="/imgs/talking.jpg"
+            alt="Your Image Description"
+            className="w-full h-full object-cover"
+          />
+
+          <h1 className="absolute text-white text-5xl font-serif">
+            My Profile
+          </h1>
+        </div>
+      </div>
       {loading && <p>Loading...</p>}
       {error && <p>Something is wrong...</p>}
       {userData && (
-        <div className="flex flex-row w-full">
-          {/* 이미지 부분 */}
-          <div className="w-1/2 px-8 mt-8 mb-20 h-auto">
-            <img
-              src={userData.avatar}
-              className="w-full h-auto"
-              alt="User Avatar"
-            />
+        <div className="flex flex-col w-full">
+          <div className="flex flex-row border-b mt-12">
+            {/* 이미지 부분 */}
+            <div className="w-1/2 px-8 mt-8 mb-20 h-auto">
+              <img
+                src={userData.avatar}
+                className="w-full h-auto"
+                alt="User Avatar"
+              />
+            </div>
+
+            {/* 텍스트 부분 */}
+            <div className="w-1/2 px-8 flex flex-col justify-start">
+              <div className="mb-8">
+                <ProfileInfo userData={userData} />
+              </div>
+
+              {/* <div className="flex justify-center mb-8 ml-12">
+                <ProfileActions
+                  navigateToNotiME={navigateToNotiME}
+                  handleLinkClick={handleLinkClick}
+                />
+              </div> */}
+
+              <ProfileModal isModalOpen={isModalOpen} closeModal={closeModal} />
+            </div>
           </div>
-
-          {/* 텍스트 부분 */}
-          <div className="w-1/2 px-8 flex flex-col justify-start">
-            <div className="mb-8">
-              <ProfileInfo userData={userData} />
+          <div className="text-2xl font-writeFont mt-8 border-b flex flex-col justify-center p-20 ">
+            <h1 className="text-3xl mb-8">포토폴리오</h1>
+            <div className="flex flex-col p-4 ">
+              {portfolios.length > 0 ? (
+                portfolios.map((portfolio) => (
+                  <div
+                    key={portfolio.id}
+                    className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105 text-black mb-4"
+                  >
+                    <h3 className=" font-semibold mb-2 font-writeFont text-3xl">
+                      {portfolio.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 font-writeFont text-2xl">
+                      {portfolio.description}
+                    </p>
+                    {/* {portfolio.image && (
+                        <img
+                          src={portfolio.image}
+                          alt={portfolio.title}
+                          className="w-full h-40 object-cover rounded-md mb-4"
+                        />
+                      )} */}
+                    {portfolio.link && (
+                      <a
+                        href={portfolio.link}
+                        className="text-blue-500 hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        자세히 보기
+                      </a>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p style={{ textAlign: "center" }}>포트폴리오가 없습니다.</p>
+              )}
             </div>
-
-            <div className="mb-8">
-              <ProfileChart
-                currentChart={currentChart}
-                setCurrentChart={setCurrentChart}
-                data={data}
-                codingData={codingData}
-                options={options}
-              />
-            </div>
-
-            <div className="flex justify-center mb-8 ml-12">
-              <ProfileActions
-                navigateToNotiME={navigateToNotiME}
-                handleLinkClick={handleLinkClick}
-              />
-            </div>
-
-            <ProfileModal isModalOpen={isModalOpen} closeModal={closeModal} />
+          </div>
+          <div className="mb-8  flex flex-col justify-center items-center ">
+            <ProfileChart
+              currentChart={currentChart}
+              setCurrentChart={setCurrentChart}
+              data={data}
+              codingData={codingData}
+              options={options}
+            />
           </div>
         </div>
       )}

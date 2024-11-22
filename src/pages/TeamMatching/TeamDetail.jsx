@@ -104,7 +104,7 @@ const TeamDetail = () => {
       try {
         setLoading(true);
         const response = await axiosInstance.get(
-          "http://127.0.0.1:8000/conversations/1/add_portfolio/"
+          "http://127.0.0.1:8000/conversations/4/add_portfolio/"
         );
         console.log(response.data);
 
@@ -599,26 +599,26 @@ const TeamDetail = () => {
                 포토폴리오
               </h2>
               {/* 포토폴리오 콘텐츠를 여기에 추가하세요 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="flex flex-col p-4 ">
                 {portfolios.length > 0 ? (
                   portfolios.map((portfolio) => (
                     <div
                       key={portfolio.id}
-                      className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105"
+                      className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105 text-black mb-4"
                     >
-                      <h3 className="text-xl font-semibold mb-2">
+                      <h3 className=" font-semibold mb-2 font-writeFont text-3xl">
                         {portfolio.title}
                       </h3>
-                      <p className="text-gray-600 mb-4">
+                      <p className="text-gray-600 mb-4 font-writeFont text-2xl">
                         {portfolio.description}
                       </p>
-                      {portfolio.image && (
+                      {/* {portfolio.image && (
                         <img
                           src={portfolio.image}
                           alt={portfolio.title}
                           className="w-full h-40 object-cover rounded-md mb-4"
                         />
-                      )}
+                      )} */}
                       {portfolio.link && (
                         <a
                           href={portfolio.link}
@@ -658,6 +658,8 @@ const TeamDetail = () => {
       />
 
       <TeamEvaluation
+        id={id}
+        delete={handleDelete}
         participants={video.participants}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -13,8 +13,12 @@ export const ProfileChart = ({
       <div className="w-full basis-5/12 flex flex-col text-left justify-center mt-12">
         {currentChart === "distribution" && (
           <div>
-            <span className="text-2xl font-dongle_light w-1/3">분포도</span>
-            <Radar data={data} options={options} />
+            <span className="text-2xl font-dongle_light w-1/3 text-center flex justify-center">
+              분포도
+            </span>
+            <div className="flex justify-center items-center w-full max-[800px] h-[800px]">
+              <Radar data={data} options={options} />
+            </div>
           </div>
         )}
 
@@ -23,7 +27,9 @@ export const ProfileChart = ({
             <span className="text-2xl font-dongle_light w-1/3 flex justify-center">
               코딩 능력
             </span>
-            <Radar data={codingData} options={options} />
+            <div className="flex justify-center items-center w-full max-[700px] h-[700px]">
+              <Radar data={codingData} options={options} />
+            </div>
           </div>
         )}
       </div>

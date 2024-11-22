@@ -9,7 +9,7 @@ const ValueModal = ({ isOpen, onClose, title, children }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl text-black">{title}</h2>
-          <button onClick={onClose}>
+          <button className="text-black" onClick={onClose}>
             <FiX size={24} />
           </button>
         </div>

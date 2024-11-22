@@ -28,17 +28,17 @@ export default function ContestCard({ video }) {
         alt="Your Image Description"
         className="w-full object-cover object-center p-4 h-[404px]"
       ></img>
-      <div className="flex justify-center p-2 text-xl font-bold">
+      <div className="flex justify-center p-2 text-xl font-writeFont font-bold">
         {video?.제목 || "제목 없음"}
       </div>
-      <div className="flex justify-center p-2 font-serif">
+      <div className="flex justify-center p-2 font-writeFont font-bold">
         분야: {video?.분야 || "분야 없음"}
       </div>
       {/* <div className="flex justify-center p-2 font-serif">
         마감기한: {video.created_at}
       </div> */}
-      <div className="flex justify-center p-2 font-serif">
-        상금: {video?.상금 || "상금 없음"}
+      <div className="flex justify-center p-2 font-writeFont font-bold">
+        접수기간 : {video?.접수기간 || "무기한"}
       </div>
     </Link>
   );

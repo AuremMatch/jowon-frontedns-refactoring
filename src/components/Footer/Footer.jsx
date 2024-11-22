@@ -3,7 +3,7 @@ import { IoLogoInstagram, IoLogoFacebook, IoLogoGithub } from "react-icons/io5";
 
 export default function Footer() {
   return (
-    <div className="bg-black text-white">
+    <div className="bg-black text-white border-t border-white">
       {/* 소셜 미디어 아이콘 섹션 */}
       <div className="flex justify-end p-3">
         <IoLogoInstagram className="text-5xl md:text-7xl p-3 hover:text-pink-800 transition duration-300 hover:scale-110" />
@@ -12,7 +12,7 @@ export default function Footer() {
       </div>
 
       {/* 팀 매칭 소개 섹션 */}
-      <div className="p-6 text-center border-t border-gray-700">
+      <div className="p-6 text-center ">
         <h2 className="text-2xl md:text-3xl font-bold">
           풀스택 프로젝트 팀 매칭
         </h2>

@@ -8,13 +8,13 @@ import ContestCard from "../Contests/ContestCard";
 import { useFetch, useFetchToday } from "../../hooks/useFetchToday";
 
 const NextArrow = (props) => (
-  <div {...props} className="slick-arrow slick-next">
+  <div {...props} className="slick-arrow slick-next text-white">
     <IoChevronForwardOutline size={56} className="align-middle" />
   </div>
 );
 
 const PrevArrow = (props) => (
-  <div {...props} className="slick-arrow slick-prev">
+  <div {...props} className="slick-arrow slick-prev text-white">
     <IoChevronBackOutline size={56} className="align-middle" />
   </div>
 );
@@ -44,8 +44,8 @@ export default function Today() {
   };
 
   return (
-    <div className="bg-white text-black p-12">
-      <h1 className="font-customFont text-5xl flex justify-center">
+    <div className="bg-black text-black p-12">
+      <h1 className="font-writeFont text-5xl flex justify-center text-white">
         Popular Contest
       </h1>
 
