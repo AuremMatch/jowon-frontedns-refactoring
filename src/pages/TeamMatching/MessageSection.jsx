@@ -14,7 +14,6 @@ const MessageSection = ({ video }) => {
       <MessageInput
         messages={messages}
         setMessages={setMessages}
-        sendMessage={sendMessage}
         conversationId={video.id}
       />
     </div>

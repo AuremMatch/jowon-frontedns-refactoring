@@ -43,7 +43,7 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
         {isAuthenticated ? (
           <p
             onClick={handleLogout}
-            className={`p-3 cursor-pointer font-writeFont text-3xl transition duration-200 ease-in-out transform hover:text-black hover:scale-110 ${textColor} ${className}`}
+            className={`p-3 cursor-pointer font-writeFont text-3xl transition duration-200 ease-in-out transform hover:text-black  ${textColor} ${className}`}
             style={{
               color: "white",
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)",
@@ -54,7 +54,7 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
         ) : (
           <Link
             to="/login"
-            className={`p-3 cursor-pointer font-writeFont text-3xl transition duration-200 ease-in-out transform hover:text-black hover:scale-110 ${textColor} ${className}`}
+            className={`p-3 cursor-pointer font-writeFont text-3xl transition duration-200 ease-in-out transform hover:text-black  ${textColor} ${className}`}
           >
             <p
               style={{
@@ -75,14 +75,14 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
   return (
     <Link
       to={path}
-      className={`p-3 cursor-pointer font-writeFont text-3xl transition duration-200 ease-in-out transform hover:text-black hover:scale-110 ${textColor} ${className}`}
+      className={`p-3 cursor-pointer font-writeFont text-3xl transition duration-200 ease-in-out transform hover:text-black  ${textColor} ${className}`}
     >
       <p
         style={{
           color: "white",
           textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)",
         }}
-        className="stroke-black stroke-3 font-bold"
+        className="stroke-black stroke-3 font-bold hover-underline" // 클래스 추가
       >
         {name}
       </p>

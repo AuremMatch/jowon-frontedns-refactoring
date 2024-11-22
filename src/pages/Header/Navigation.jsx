@@ -4,6 +4,8 @@ import { IoChevronUpOutline, IoChevronDownOutline } from "react-icons/io5";
 import PageMenu from "./PageMenu";
 import MenuItem from "./MenuItem";
 
+import { BsSun, BsMoon } from "react-icons/bs";
+
 const menuItems = [
   { name: "Contests" },
   { name: "Likes" },
@@ -13,6 +15,11 @@ const menuItems = [
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
+  const [isSun, setIsSun] = useState(true); // 초기값은 Sun으로 설정
+
+  const toggleIcon = () => {
+    setIsSun(!isSun); // 클릭 시 상태 변경
+  };
 
   const handleScroll = () => {
     if (window.scrollY > 0) {
@@ -51,13 +58,24 @@ export default function Navigation() {
       <div className="flex justify-between p-8">
         <Link to="/">
           <h1
-            className="text-4xl font-writeFont m-3 transform hover:scale-110 hover:text-black"
+            className="text-4xl font-writeFont m-3  hover:text-black"
             style={{
               color: "white",
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.8)",
             }}
           >
-            <span className="stroke-black stroke-1 font-bold">1jowon</span>
+            <span className="stroke-black stroke-1 font-bold flex items-center">
+              <div
+                style={{
+                  transition: "transform 0.5s ease, opacity 0.5s ease", // 천천히 변화
+                }}
+                className="text-[40px] hover:scale-110 hover:text-yellow-500 transition-transform duration-500 cursor-pointer" // hover 시 확대 + 노란색
+                onClick={toggleIcon} // 클릭 이벤트
+              >
+                {isSun ? <BsSun /> : <BsMoon />}
+              </div>
+              <span className="ml-2">Aurem</span>
+            </span>
           </h1>
         </Link>
         <ul className="flex items-center">
@@ -66,7 +84,7 @@ export default function Navigation() {
           ))}
           <li
             onClick={toggleMenu}
-            className="p-3 font-writeFont text-3xl cursor-pointer flex items-center relative group transform hover:text-black hover:scale-110"
+            className="p-3 font-writeFont text-3xl cursor-pointer flex items-center relative group transform hover:text-black "
           >
             <span
               style={{

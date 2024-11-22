@@ -12,7 +12,7 @@ const menuItems = [
 
 export default function PageMenu() {
   return (
-    <ul className="absolute top-full left-0 right-2 bg-white flex align-center text-center flex-col">
+    <ul className="text-black absolute top-full left-0 right-2 bg-white flex align-center  flex-col">
       {menuItems.map((item, index) => (
         <MenuItem key={index} name={item.name} scroll={true} />
       ))}

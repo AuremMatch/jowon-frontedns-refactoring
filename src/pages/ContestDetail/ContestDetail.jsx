@@ -31,17 +31,19 @@ export default function ContestDetail() {
 
   return (
     <div className="bg-black text-white min-h-screen flex items-center justify-center mt-28 mb-12">
-      <section className="w-5/6 h-5/6 flex flex-col md:flex-row p-6 md:p-12 items-center justify-between bg-gray-800 rounded-lg shadow-lg">
+      <section className="w-5/6 h-5/6 flex flex-col md:flex-row p-6 md:p-12 items-center justify-between  rounded-lg shadow-lg">
         <div className="w-full mb-8">
-          <h1 className="text-3xl font-bold mb-6">{video.제목}</h1>
+          <h1 className="text-3xl font-bold mb-6 font-writeFont">
+            {video.제목}
+          </h1>
           <img
             src={video.사진}
-            className="w-full rounded-lg shadow-md"
+            className="w-full rounded-lg shadow-md font-writeFont"
             alt={video.제목}
           />
         </div>
 
-        <div className="w-full md:w-1/2 ml-24">
+        <div className="w-full md:w-1/2 ml-24 text-2xl">
           <ContestInfo video={video} />
           <ContestButtons
             nav={navToApply}

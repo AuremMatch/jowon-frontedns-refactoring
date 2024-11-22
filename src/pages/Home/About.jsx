@@ -23,7 +23,7 @@ export default function About() {
         <Slider {...settings} className="w-3/4 flex ">
           <div>
             <div className="flex flex-col  items-center">
-              <div className="text-white text-left text-2xl flex items-center flex-col justify-center ml-8 font-writeFont leading-10">
+              <div className="mt-24 text-white text-left text-2xl flex items-center flex-col justify-center ml-8 font-writeFont leading-10">
                 대학생활의 꽃{" "}
                 <p className="font-bold text-3xl inline">프로젝트</p>
                 <br />

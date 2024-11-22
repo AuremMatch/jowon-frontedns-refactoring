@@ -604,7 +604,7 @@ const TeamDetail = () => {
                   portfolios.map((portfolio) => (
                     <div
                       key={portfolio.id}
-                      className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105 text-black mb-4"
+                      className="bg-white shadow-md rounded-lg p-8 transition-transform transform hover:scale-105 text-black mb-4 "
                     >
                       <h3 className=" font-semibold mb-2 font-writeFont text-3xl">
                         {portfolio.title}
