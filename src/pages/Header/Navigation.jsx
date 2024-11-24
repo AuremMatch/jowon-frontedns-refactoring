@@ -5,6 +5,7 @@ import PageMenu from "./PageMenu";
 import MenuItem from "./MenuItem";
 
 import { BsSun, BsMoon } from "react-icons/bs";
+import { useTheme } from "../../context/ThemeContext";
 
 const menuItems = [
   { name: "Contests" },
@@ -12,10 +13,10 @@ const menuItems = [
   { name: "TeamMatching" },
 ];
 
-export default function Navigation() {
+export default function Navigation({}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
-  const [isSun, setIsSun] = useState(true); // 초기값은 Sun으로 설정
+  const { isSun, setIsSun } = useTheme();
 
   const toggleIcon = () => {
     setIsSun(!isSun); // 클릭 시 상태 변경

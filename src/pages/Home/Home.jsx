@@ -4,10 +4,12 @@ import About from "./About";
 import Scrolls from "../../components/scroll/Scrolls";
 import Today from "./Today";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 
-export default function Home({ scrollToSection }) {
+export default function Home() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isSun } = useTheme();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -23,7 +25,7 @@ export default function Home({ scrollToSection }) {
     <>
       <div className="w-full h-screen overflow-hidden ">
         <img
-          src="/imgs/a.jpg"
+          src={isSun ? "/imgs/sun.jpg" : "/imgs/a.jpg"}
           alt="Team Photo"
           className="w-full h-full object-cover"
         />
