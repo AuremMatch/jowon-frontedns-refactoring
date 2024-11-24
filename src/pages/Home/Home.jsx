@@ -23,7 +23,7 @@ export default function Home({ scrollToSection }) {
     <>
       <div className="w-full h-screen overflow-hidden ">
         <img
-          src="/imgs/team.jpg"
+          src="/imgs/a.jpg"
           alt="Team Photo"
           className="w-full h-full object-cover"
         />

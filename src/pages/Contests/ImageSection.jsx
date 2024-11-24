@@ -6,7 +6,7 @@ export default function ImageSection() {
       <div className="relative w-full h-0" style={{ paddingBottom: "40%" }}>
         <div className="absolute inset-0 flex items-center justify-center">
           <img
-            src="/imgs/back_c.jpeg"
+            src="/imgs/a.jpg"
             alt="Your Image Description"
             className="absolute inset-0 w-full h-full object-cover opacity-75"
             style={{}} // 스케일을 줄이고 중심 기준으로 조정

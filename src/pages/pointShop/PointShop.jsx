@@ -29,7 +29,7 @@ const PointShop = () => {
       <div className="relative w-full h-0" style={{ paddingBottom: "40%" }}>
         <div className="absolute inset-0 flex items-center justify-center">
           <img
-            src="https://firebasestorage.googleapis.com/v0/b/wpoint-1d1be.appspot.com/o/KakaoTalk_Photo_2024-06-24-22-46-30.jpeg?alt=media&token=70070c2f-4375-442f-8059-4a78f60680c5"
+            src="/imgs/c.jpg"
             alt="Your Image Description"
             className="w-full h-full object-cover"
           />

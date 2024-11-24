@@ -11,7 +11,7 @@ const TeamList = () => {
       <div className="relative w-full" style={{ paddingBottom: "40%" }}>
         <div className="absolute inset-0 flex items-center justify-center">
           <img
-            src="/imgs/teamList.jpg"
+            src="/imgs/b.jpg"
             alt="Your Image Description"
             className="w-full h-full object-cover"
           />
