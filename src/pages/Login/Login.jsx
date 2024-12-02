@@ -30,6 +30,10 @@ export default function Login() {
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
   };
 
+  const saveTokenToLocalStorage = (token) => {
+    localStorage.setItem("authToken", token);
+  };
+
   // 로그인 처리
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,6 +57,7 @@ export default function Login() {
       console.log("로그인 성공:", response.data);
       setUser(response.data); // 로그인 성공 시 사용자 정보 설정
       saveUserInfoToLocalStorage(response.data); // 사용자 정보를 로컬 스토리지에 저장
+      saveTokenToLocalStorage(response.data.token);
       navigate("/"); // 홈화면으로 이동
     } catch (error) {
       console.error("로그인 요청 중 에러:", error);
@@ -66,7 +71,7 @@ export default function Login() {
         {/* 왼쪽 이미지 섹션 */}
         <div className="hidden md:block md:w-1/2">
           <img
-            src="/imgs/team.jpg" // 대체 이미지
+            src="/imgs/c.jpg" // 대체 이미지
             alt="Programming code"
             className="object-cover w-full h-full"
           />
@@ -75,7 +80,7 @@ export default function Login() {
         {/* 로그인 섹션 */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">
-            Login 1Jowon
+            Login Aurem
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">

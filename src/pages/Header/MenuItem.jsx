@@ -18,7 +18,7 @@ export default function MenuItem({ name, scroll, color, className = "" }) {
 
   // 로그아웃 처리
   const handleLogout = () => {
-    localStorage.removeItem("accessToken"); // 로컬 스토리지에서 토큰 삭제
+    localStorage.removeItem("authToken"); // 로컬 스토리지에서 토큰 삭제
     setIsAuthenticated(false); // 상태 업데이트
     window.location.reload(); // 페이지 새로고침
   };

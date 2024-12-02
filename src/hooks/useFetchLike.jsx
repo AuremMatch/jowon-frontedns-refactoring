@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useProfileData } from "./useProfileData";
 
 export const useFetchLike = (page) => {
   const shouldFetch = true; // 쿼리 실행 여부를 결정하는 조건
@@ -22,14 +23,20 @@ export const useFetchLike = (page) => {
 };
 
 export function useToggleLike(videoId) {
-  const [liked, setLiked] = useState(() => {
-    // Retrieve the initial liked state from localStorage
-    const savedLiked = localStorage.getItem(`liked_${videoId}`);
-    // 로그를 주석처리하거나 제거
-    // console.log(savedLiked);
+  const { userData, loading, error } = useProfileData();
 
-    return savedLiked ? JSON.parse(savedLiked) : false;
-  });
+  // 항상 호출되는 useState
+  const [liked, setLiked] = useState(false); // 기본값 false로 초기화
+
+  useEffect(() => {
+    // userData가 준비된 후에만 로컬 스토리지를 확인
+    if (userData) {
+      const savedLiked = localStorage.getItem(
+        `liked_${userData.id}_${videoId}`
+      );
+      setLiked(savedLiked ? JSON.parse(savedLiked) : false);
+    }
+  }, [userData, videoId]);
 
   const toggleLike = async (e) => {
     e.stopPropagation();
@@ -37,16 +44,22 @@ export function useToggleLike(videoId) {
 
     try {
       const newLiked = !liked;
-      setLiked(newLiked); // Optimistic UI update
-      localStorage.setItem(`liked_${videoId}`, JSON.stringify(newLiked));
+      setLiked(newLiked); // 낙관적 UI 업데이트
+      localStorage.setItem(
+        `liked_${userData.id}_${videoId}`,
+        JSON.stringify(newLiked)
+      );
 
       await axiosInstance.put("http://127.0.0.1:8000/users/me/favs/", {
         id: videoId,
       });
     } catch (error) {
       console.error("Error toggling like:", error);
-      setLiked(!liked); // Rollback on error
-      localStorage.setItem(`liked_${videoId}`, JSON.stringify(!liked));
+      setLiked(!liked); // 에러 발생 시 롤백
+      localStorage.setItem(
+        `liked_${userData.id}_${videoId}`,
+        JSON.stringify(!liked)
+      );
     }
   };
 

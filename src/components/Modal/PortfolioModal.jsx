@@ -42,7 +42,7 @@ const PortfolioModal = ({ isOpen, onClose, onSubmit }) => {
 
       // Content-Type 헤더 제거
       const response = await axiosInstance.post(
-        "http://127.0.0.1:8000/conversations/1/add_portfolio/",
+        "http://127.0.0.1:8000/conversations/5/add_portfolio/",
         formData
       );
 

@@ -67,7 +67,7 @@ export default function SignUpModal({ isOpen, onClose, handleSubmit }) {
         isOpen ? "fixed inset-0 z-50 overflow-y-auto" : "hidden"
       } bg-gray-900 bg-opacity-75 `}
     >
-      <div className="flex items-center justify-center mt-[20vh] min-h-screen pt-12 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="flex items-center justify-center mt-[20vh] min-h-screen pt-12 px-4 pb-20 text-center sm:block sm:p-0 text-black">
         <div
           ref={modalRef} // 모달 내부에 ref 추가
           className={`${
