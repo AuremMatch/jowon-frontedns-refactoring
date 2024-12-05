@@ -386,6 +386,15 @@ const TeamDetail = () => {
         },
       },
     },
+    pointLabels: {
+      display: true,
+      font: {
+        size: 20, // 글자 크기
+        family: "write-pencil", // 글씨체 변경 (예: Arial)
+        weight: "bold", // 글씨 두께 변경 (예: bold)
+      },
+      color: "#000", // 라벨 색상 (예: 검정색)
+    },
     layout: {
       padding: {
         top: 100, // 상단 패딩
@@ -480,21 +489,24 @@ const TeamDetail = () => {
 
   return (
     <section id="home" className="">
-      <div className="relative w-full h-0" style={{ paddingBottom: "40%" }}>
-        <div className="absolute inset-0 flex items-center justify-center">
+      <div
+        className="relative w-full h-0 font-writeFont"
+        style={{ paddingBottom: "40%" }}
+      >
+        <div className="absolute inset-0 flex items-center justify-center font-writeFont">
           <img
-            src="/imgs/talking.jpg"
+            src="/imgs/d.jpg"
             alt="Your Image Description"
             className="w-full h-full object-cover"
           />
 
-          <h1 className="absolute text-white text-5xl font-serif">
-            Team's talking
+          <h1 className="absolute text-white text-5xl font-writeFont ">
+            {video.teamName}
           </h1>
         </div>
       </div>
-      <div className="container mx-auto my-10 mt-32 flex justify-between min-h-50vh">
-        <div className="flex justify-center">
+      <div className="container mx-auto my-10 mt-32 flex justify-between min-h-50vh font-writeFont">
+        <div className="flex justify-center font-writeFont">
           <button onClick={toggleSection} className="focus:outline-none">
             {!isExpanded ? (
               <FiChevronLeft size={64} />
@@ -509,8 +521,8 @@ const TeamDetail = () => {
             pending={video.pendingParticipants}
           />
         )}
-        <div className="border flex-grow ml-10 p-10 flex flex-col">
-          <div className="border mb-6 flex items-center justify-center rounded p-2">
+        <div className="border flex-grow ml-10 p-10 flex flex-col font-writeFont">
+          <div className="border mb-6 flex items-center justify-center rounded p-2 font-writeFont">
             {video.teamName}
           </div>
           <MessageList messages={video.messages} />
@@ -522,39 +534,39 @@ const TeamDetail = () => {
         </div>
 
         <div
-          className={`border w-1/4 p-10 ml-12 flex justify-center flex-col ${
+          className={`border font-writeFont w-1/4 p-10 ml-12 flex justify-center flex-col ${
             isThirdExpanded ? "" : "hidden"
           }`}
         >
-          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer ">
+          <button className="flex justify-center align-top relative p-4 font-writeFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer ">
             <FaImage className="mr-4" size={24} /> <>사진/동영상</>
           </button>
           <div className="flex justify-between mt-10 items-center"></div>
-          <button className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer ">
+          <button className="flex justify-center align-top relative p-4 font-writeFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer ">
             <FaFile className="mr-4" size={24} /> <>파일</>
           </button>
           <div className="flex justify-between mt-10 items-center"></div>
           <button
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer"
+            className="flex justify-center align-top relative p-4 font-writeFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer"
             onClick={handleDelete}
           >
-            <FaBomb className="mr-4" size={24} /> <>팀파기</>
+            <FaBomb className="mr-4 font-writeFont" size={24} /> <>팀파기</>
           </button>
 
-          <div className="flex justify-between mt-10 items-center"></div>
+          <div className="flex justify-between mt-10 items-center font-writeFont"></div>
 
           <button
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer "
+            className="font-writeFont flex justify-center align-top relative p-4  hover:underline bg-white text-black items-center hover:bg-black hover:text-white cursor-pointer "
             onClick={handlePotoModalOpen}
           >
             <FaStar className="mr-4" size={24} /> <>성과올리기</>
           </button>
           <input type="file" id="fileInput" style={{ display: "none" }} />
 
-          <div className="flex justify-between mt-10 items-center"></div>
+          <div className=" flex justify-between mt-10 items-center"></div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex justify-center align-top relative p-4 font-customFont hover:underline bg-red-400 text-black items-center hover:bg-black hover:text-white cursor-pointer "
+            className="flex justify-center align-top relative p-4 font-writeFont hover:underline bg-red-400 text-black items-center hover:bg-black hover:text-white cursor-pointer "
           >
             <FiX className="mr-4" size={24} /> <>활동종료</>
           </button>
