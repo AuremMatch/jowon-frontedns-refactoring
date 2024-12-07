@@ -22,11 +22,11 @@ export const useFetchLike = (page) => {
   });
 };
 
-export function useToggleLike(videoId) {
+export function useToggleLike(videoId, initialLiked = false) {
   const { userData, loading, error } = useProfileData();
 
   // 항상 호출되는 useState
-  const [liked, setLiked] = useState(false); // 기본값 false로 초기화
+  const [liked, setLiked] = useState(initialLiked); // 기본값 false로 초기화
 
   useEffect(() => {
     // userData가 준비된 후에만 로컬 스토리지를 확인

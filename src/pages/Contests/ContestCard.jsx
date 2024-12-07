@@ -4,8 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { useToggleLike } from "../../hooks/useFetchLike";
 
-export default function ContestCard({ video }) {
-  const { liked, toggleLike } = useToggleLike(video.id); // 커스텀 훅 사용
+export default function ContestCard({ video, liked }) {
+  const { liked: dynamicLiked, toggleLike } = useToggleLike(video.id, liked); // 커스텀 훅 사용
 
   return (
     <Link
@@ -17,10 +17,10 @@ export default function ContestCard({ video }) {
         className="absolute top-2 right-2 text-red-500 cursor-pointer"
         onClick={toggleLike}
       >
-        {liked ? (
+        {dynamicLiked ? (
           <FaHeart className="text-4xl text-red-500" />
         ) : (
-          <FaRegHeart className="text-4xl" />
+          <FaRegHeart className="text-4xl text-gray-500" />
         )}
       </div>
       <img

@@ -12,7 +12,11 @@ export default function Like() {
         <div className="grid grid-cols-3 gap-3 mt-40">
           {likes.map((video) => (
             <div key={video.id} className="px-2">
-              <ContestCard key={video.id} video={video}></ContestCard>
+              <ContestCard
+                key={video.id}
+                video={video}
+                liked={true}
+              ></ContestCard>
             </div>
           ))}
         </div>

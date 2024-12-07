@@ -7,13 +7,16 @@ import Filtering from "../Filtering/Filtering";
 export default function DataSection() {
   const [page, setPage] = useState(1); // 페이지네이션
   const { isLoading, error, data: videos } = useFetchToday(page); // 커스텀 훅 사용
-
+  const [searchResults, setSearchResults] = useState([]); // 검색 결과 상태 추가
   const { state, handleFilterClick } = useFilterReducer();
 
   const displayVideos = () => {
     if (state.departmentChecked) return state.filteredVideos;
     if (state.latestChecked) return state.latestVideos;
     if (state.periodChecked) return state.periodVideos;
+    if (searchResults.length > 0) return searchResults; // 검색 결과 우선
+    console.log(searchResults);
+
     return videos?.results || [];
   };
 
@@ -22,6 +25,7 @@ export default function DataSection() {
       <Filtering
         activeFilter={state.activeFilter}
         onFilterClick={handleFilterClick}
+        onSearchResults={setSearchResults}
       />
       {isLoading && <p>Loading...</p>}
       {error && <p>Something is wrong...</p>}
