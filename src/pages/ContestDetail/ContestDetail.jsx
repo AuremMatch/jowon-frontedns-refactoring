@@ -6,8 +6,10 @@ import ContestButtons from "./ContestButton";
 import useModal from "../../hooks/useModal";
 import ContestModal from "../Survey/ContestModal";
 import { useToggleLike } from "../../hooks/useToggleLike";
+import { useProfileData } from "../../hooks/useProfileData";
 
 export default function ContestDetail() {
+  const { userData, score, coding, loadings, errors } = useProfileData();
   const { id } = useParams();
   console.log(id);
 
@@ -49,6 +51,9 @@ export default function ContestDetail() {
             nav={navToApply}
             openModal={openModal}
             apply={state.apply}
+            userData={userData}
+            loading={loadings}
+            error={errors}
           />{" "}
           {/* openModal 함수를 전달 */}
         </div>

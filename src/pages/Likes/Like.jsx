@@ -4,6 +4,7 @@ import ContestCard from "../Contests/ContestCard";
 
 export default function Like() {
   const { isLoading, error, data: likes } = useFetchLike(); // 커스텀 훅 사용
+
   return (
     <div>
       {isLoading && <p>Loading...</p>}

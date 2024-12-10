@@ -1,24 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import { useNavigate, useParams } from "react-router-dom";
+import { useProfileData } from "../../hooks/useProfileData";
 
 export default function ContestButtons({
   openModal,
   apply: initialApply,
   nav,
+  userData,
+  loading,
+  error,
 }) {
   const navigate = useNavigate();
   const { id } = useParams();
+  useEffect(() => {
+    if (!loading && userData) {
+      console.log("userData 로드 성공:", userData);
+    }
+  }, [loading, userData]);
 
   // 지원 상태를 localStorage에서 불러오거나, 초기값으로 설정
   const [apply, setApply] = useState(() => {
-    const savedApply = localStorage.getItem(`applyStatus_${id}`);
+    const savedApply = localStorage.getItem(`applyStatus_${userData.id}_${id}`);
     return savedApply ? JSON.parse(savedApply) : initialApply;
   });
 
   useEffect(() => {
     // 지원 상태가 바뀔 때마다 localStorage에 저장
-    localStorage.setItem(`applyStatus_${id}`, JSON.stringify(apply));
+    localStorage.setItem(
+      `applyStatus_${userData.id}_${id}`,
+      JSON.stringify(apply)
+    );
   }, [apply, id]);
 
   const handleNavigate = () => {

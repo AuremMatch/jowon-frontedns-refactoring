@@ -24,6 +24,7 @@ export const useFetchLike = (page) => {
 
 export function useToggleLike(videoId, initialLiked = false) {
   const { userData, loading, error } = useProfileData();
+  console.log(userData);
 
   // 항상 호출되는 useState
   const [liked, setLiked] = useState(initialLiked); // 기본값 false로 초기화

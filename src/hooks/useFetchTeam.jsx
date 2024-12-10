@@ -10,7 +10,7 @@ const useFetchTeam = () => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          "http://127.0.0.1:8000/conversations/"
+          `http://127.0.0.1:8000/conversations/my`
         );
         setUserData(response.data);
       } catch (error) {
