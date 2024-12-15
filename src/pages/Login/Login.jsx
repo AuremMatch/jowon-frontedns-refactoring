@@ -60,8 +60,8 @@ export default function Login() {
       saveTokenToLocalStorage(response.data.token);
       navigate("/"); // 홈화면으로 이동
     } catch (error) {
-      console.error("로그인 요청 중 에러:", error);
-      setError("An error occurred while logging in");
+      console.error("로그인 요청 중 에러:", error.response.data.error);
+      setError(error.response.data.error);
     }
   };
 
