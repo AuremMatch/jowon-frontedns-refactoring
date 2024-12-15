@@ -4,6 +4,8 @@ import axios from "axios";
 
 function Filtering({ activeFilter, onFilterClick, onSearchResults }) {
   const [keyword, setKeyword] = useState("");
+  const [errorMessage, setErrrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // 나미가 보물 이름을 기억하는 상자
 
   const handleSearch = async () => {
@@ -11,6 +13,8 @@ function Filtering({ activeFilter, onFilterClick, onSearchResults }) {
       alert("검색어를 입력해주세요!");
       return;
     }
+
+    setIsLoading(true);
 
     try {
       // axios로 GET 요청 보내기
@@ -25,8 +29,23 @@ function Filtering({ activeFilter, onFilterClick, onSearchResults }) {
       console.log("Search result:", response.data); // 결과 출력
       // 부모로 검색 결과 전달
       onSearchResults(response.data); // 검색 결과를 부모로 전달
+      setErrrorMessage(""); // 성공적으로 검색시 에러 초기화
     } catch (error) {
       console.error("검색 요청 중 오류 발생:", error); // 에러 처리
+
+      if (error.response) {
+        setErrrorMessage(
+          `오류 발생: ${error.response.status} - ${
+            error.response.data.message || "알수 없는 오류"
+          }`
+        );
+      } else if (error.request) {
+        setErrrorMessage("서버 응답이 없습니다. 네트워크 상태를 확인해주세요");
+      } else {
+        setErrrorMessage("요청중 문제가 발생했습니다: ${error.message}");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -40,6 +59,7 @@ function Filtering({ activeFilter, onFilterClick, onSearchResults }) {
             placeholder="원하는 활동을 검색해보세요..."
             className="w-full h-[65px] pl-6 pr-16 rounded-full shadow-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-800 text-lg"
           />
+          {errorMessage && <p className="text-red-50">{errorMessage}</p>}
           <button
             onClick={handleSearch}
             className="absolute top-1/2 right-6 transform -translate-y-1/2 text-blue-800 hover:text-blue-800 focus:outline-none"

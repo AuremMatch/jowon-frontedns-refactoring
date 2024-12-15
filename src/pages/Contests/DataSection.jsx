@@ -15,6 +15,7 @@ export default function DataSection() {
     if (state.latestChecked) return state.latestVideos;
     if (state.periodChecked) return state.periodVideos;
     if (searchResults.length > 0) return searchResults; // 검색 결과 우선
+    if (searchResults.length === 0) return [];
     console.log(searchResults);
 
     return videos?.results || [];
